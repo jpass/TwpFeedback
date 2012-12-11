@@ -21,6 +21,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+        twp_idea_layout: 'TwpDashboardBundle::layout.html.twig'
 
 # Assetic Configuration
 assetic:
