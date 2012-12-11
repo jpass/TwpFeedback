@@ -1,3 +1,8 @@
+twp_idea:
+    resource: "@TwpIdeaBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 twp_dashboard:
     resource: "@TwpDashboardBundle/Controller/"
     type:     annotation
