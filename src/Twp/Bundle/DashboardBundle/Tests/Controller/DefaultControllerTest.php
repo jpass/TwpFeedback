@@ -1,6 +1,6 @@
 <?php
 
-namespace Twp\Bundle\FeedbackBundle\Tests\Controller;
+namespace Twp\Bundle\DashboardBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

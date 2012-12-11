@@ -6,11 +6,11 @@
 
     <!--
     <parameters>
-        <parameter key="twp_feedback.example.class">Twp\Bundle\FeedbackBundle\Example</parameter>
+        <parameter key="twp_dashboard.example.class">Twp\Bundle\DashboardBundle\Example</parameter>
     </parameters>
 
     <services>
-        <service id="twp_feedback.example" class="%twp_feedback.example.class%">
+        <service id="twp_dashboard.example" class="%twp_dashboard.example.class%">
             <argument type="service" id="service_id" />
             <argument>plain_value</argument>
             <argument>%parameter_name%</argument>

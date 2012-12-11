@@ -1,5 +1,5 @@
-twp_feedback:
-    resource: "@TwpFeedbackBundle/Controller/"
+twp_dashboard:
+    resource: "@TwpDashboardBundle/Controller/"
     type:     annotation
     prefix:   /
 

@@ -1,0 +1,43 @@
+{% extends 'TwpDashboardBundle::layout.html.twig' %}
+
+{% block body %}
+<section>
+    <h1>TWP Community</h1>
+    <ul>
+        <li><a id="new-idea" class="idea-button" href="#"></a></li>
+        <li><a id="new-issue" class="idea-button" href="#"></a></li>
+    </ul>
+    <form method="POST" action="/idea" id="new-idea-form">
+        <h2>I suggest you...</h2>
+        <div>
+            <span class="text-flow">Enter your idea...</span>
+            <input name="idea[title]" type="text" value="">
+        </div>
+        <div>
+            <span>Describe your idea...</span>
+            <textarea name="idea[content]"></textarea>
+        </div>
+        <div>
+            <input type="radio" role="radio" id="new-idea-1-vote" name="idea[votes]" value="1" checked="checked" title="1 vote">
+            <label for="new-idea-1-vote">1</label>
+            <input type="radio" role="radio" id="new-idea-2-vote" name="idea[votes]" value="1" title="2 votes">
+            <label for="new-idea-2-vote">2</label>
+            <input type="radio" role="radio" id="new-idea-3-vote" name="idea[votes]" value="1" title="3 votes">
+            <label for="new-idea-3-vote">3</label>
+        </div>   
+        <input type="Submit" value="Add"/>
+    </form>
+    <form id="new-issue-form">
+        <h2>You need to fix...</h2>
+        <div>
+            <span>Enter your issue...</span>
+            <input name="issue[title]" type="text" value="">
+        </div>
+        <div>
+            <span>Describe your issue...</span>
+            <textarea name="issue[content]"></textarea>
+        </div>
+        <input type="Submit" value="Add"/>
+    </form>
+</section>
+{% endblock %}
