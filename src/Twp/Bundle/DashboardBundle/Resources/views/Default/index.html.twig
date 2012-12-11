@@ -7,7 +7,7 @@
         <li><a id="new-idea" class="idea-button" href="#"></a></li>
         <li><a id="new-issue" class="idea-button" href="#"></a></li>
     </ul>
-    <form action="{#{ path('idea_add') }#}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('homepage') }}" method="post" {{ form_enctype(form) }}>
         <h2>I suggest you...</h2>
         {{ form_widget(form) }}
         <input type="Submit" value="Add"/>

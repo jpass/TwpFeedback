@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Twp\Entity\Idea;
+use Twp\Bundle\IdeaBundle\Form\Type\IdeaType;
 
 class DefaultController extends Controller
 {
@@ -16,16 +17,15 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $idea = new Idea();
-        $form = $this->createFormBuilder($idea)
-            ->add('title', null, array('label' => 'Enter your idea...'))
-            ->add('content', null, array('label' => 'Describe your idea...'))
-            ->add('votes', 'choice', array(
-                'choices' => array(1,2,3),
-                'mapped' => false,
-                'expanded' => true
-                ))
-            ->getForm();
+        $form = $this->createForm(new IdeaType());
+        
+        if($this->getRequest()->isMethod('POST'))
+        {
+            $form->bind($this->getRequest());
+            if ($form->isValid()) {
+                return $this->forward('TwpIdeaBundle:Idea:add', array('idea' => $form->getData()));
+            }
+        }
         
         return array('form' => $form->createView());
     }

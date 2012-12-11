@@ -4,16 +4,21 @@ namespace Twp\Bundle\IdeaBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-class DefaultController extends Controller
+use Twp\Bundle\IdeaBundle\Form\Type\IdeaType;
+
+class IdeaController extends Controller
 {
-    /**
-     * @Route("/hello/{name}")
-     * @Template()
-     */
-    public function indexAction($name)
+    public function addAction($idea)
     {
-        return array('name' => $name);
+        $em = $this->getDoctrine()->getManager();
+        // TODO: setUser
+        $em->persist($idea);
+        $em->flush();
+        
+        //return $this->redirect();
+        return new \Symfony\Component\HttpFoundation\Response();
     }
 }
