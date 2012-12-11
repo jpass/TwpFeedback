@@ -18,7 +18,17 @@ class IdeaController extends Controller
         $em->persist($idea);
         $em->flush();
         
-        //return $this->redirect();
-        return new \Symfony\Component\HttpFoundation\Response();
+        return $this->redirect($this->generateUrl('idea_show', array('id' => $idea->getId())));
+    }
+    
+    /**
+     * @Route("/idea/{id}", name="idea_show", requirements={"id" = "\d+"})
+     * @Template()
+     */
+    public function showAction($id)
+    {
+        $idea = $this->getDoctrine()->getRepository('Twp:Idea')->findOneById($id);
+        
+        return array('idea' => $idea);
     }
 }
