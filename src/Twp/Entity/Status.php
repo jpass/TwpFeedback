@@ -56,4 +56,129 @@ class Status
     {
        $this->createdAt = new \DateTime();
     }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set type
+     *
+     * @param integer $type
+     * @return Status
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return integer 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return Status
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set idea
+     *
+     * @param Twp\Entity\Idea $idea
+     * @return Status
+     */
+    public function setIdea(\Twp\Entity\Idea $idea = null)
+    {
+        $this->idea = $idea;
+    
+        return $this;
+    }
+
+    /**
+     * Get idea
+     *
+     * @return Twp\Entity\Idea 
+     */
+    public function getIdea()
+    {
+        return $this->idea;
+    }
+
+    /**
+     * Set user
+     *
+     * @param Twp\Entity\User $user
+     * @return Status
+     */
+    public function setUser(\Twp\Entity\User $user = null)
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return Twp\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set comment
+     *
+     * @param Twp\Entity\Comment $comment
+     * @return Status
+     */
+    public function setComment(\Twp\Entity\Comment $comment = null)
+    {
+        $this->comment = $comment;
+    
+        return $this;
+    }
+
+    /**
+     * Get comment
+     *
+     * @return Twp\Entity\Comment 
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
 }

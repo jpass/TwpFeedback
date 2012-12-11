@@ -48,7 +48,18 @@ doctrine:
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: true
+        #auto_mapping: true
+        default_entity_manager:  default
+        entity_managers:
+            default:
+                mappings:
+                    Twp:
+                        dir: "%kernel.root_dir%/../src/Twp/Entity"
+                        type: annotation
+                        prefix: Twp\Entity
+                        alias: Twp
+                        is_bundle: false
+                        
 
 # Swiftmailer Configuration
 swiftmailer:

@@ -41,4 +41,83 @@ class Vote
     {
        $this->createdAt = new \DateTime();
     }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     * @return Vote
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime 
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set idea
+     *
+     * @param Twp\Entity\Idea $idea
+     * @return Vote
+     */
+    public function setIdea(\Twp\Entity\Idea $idea = null)
+    {
+        $this->idea = $idea;
+    
+        return $this;
+    }
+
+    /**
+     * Get idea
+     *
+     * @return Twp\Entity\Idea 
+     */
+    public function getIdea()
+    {
+        return $this->idea;
+    }
+
+    /**
+     * Set user
+     *
+     * @param Twp\Entity\User $user
+     * @return Vote
+     */
+    public function setUser(\Twp\Entity\User $user = null)
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return Twp\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }
