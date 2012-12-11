@@ -1,6 +1,8 @@
 {% extends twp_idea_layout %}
 
 {% block content %}
-<h1>{{ idea.title}}</h1>
-<p>{{ idea.content }}</p>
+<article>
+    <header>{{ idea.title}}</header>
+    <section>{{ idea.content }}</section>
+</article>
 {% endblock  %}
