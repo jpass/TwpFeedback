@@ -27,6 +27,6 @@ class DefaultController extends Controller
             }
         }
         
-        return array('form' => $form->createView());
+        return array('form' => $form->createView(), 'topIdeas' => $this->getDoctrine()->getRepository('Twp:Idea')->getTop());
     }
 }

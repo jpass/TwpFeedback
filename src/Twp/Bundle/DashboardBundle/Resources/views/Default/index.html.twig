@@ -25,4 +25,7 @@
         <input type="Submit" value="Add"/>
     </form>
 </section>
+<section>
+    {% include 'TwpIdeaBundle:Idea:list.html.twig' with { 'ideas': topIdeas } %}
+</section>
 {% endblock %}
