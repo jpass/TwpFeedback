@@ -11,7 +11,7 @@ use Twp\Entity\Idea;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="homepage")
      * @Template()
      */
     public function indexAction()
