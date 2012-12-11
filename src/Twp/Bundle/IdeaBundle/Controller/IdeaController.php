@@ -7,11 +7,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use Twp\Bundle\IdeaBundle\Form\Type\IdeaType;
+use Twp\Entity\Idea;
 
 class IdeaController extends Controller
 {
-    public function addAction($idea)
+    public function addAction(Idea $idea)
     {
         $em = $this->getDoctrine()->getManager();
         // TODO: setUser
@@ -30,5 +30,14 @@ class IdeaController extends Controller
         $idea = $this->getDoctrine()->getRepository('Twp:Idea')->findOneById($id);
         
         return array('idea' => $idea);
+    }
+    
+    /**
+     * @Route("/idea")
+     * @Template()
+     */
+    public function listAction()
+    {
+        return array('ideas' => $this->getDoctrine()->getRepository('Twp:Idea')->findAll());
     }
 }

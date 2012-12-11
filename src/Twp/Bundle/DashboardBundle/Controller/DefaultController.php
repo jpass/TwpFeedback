@@ -6,8 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
-use Twp\Entity\Idea;
-use Twp\Bundle\IdeaBundle\Form\Type\IdeaType;
+use Twp\Form\Type\IdeaType;
 
 class DefaultController extends Controller
 {
