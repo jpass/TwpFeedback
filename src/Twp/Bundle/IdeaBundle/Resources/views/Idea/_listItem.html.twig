@@ -1,5 +1,5 @@
 <article>
-    <header>{{ idea.title }}</header>
+    <header><a href="{{ path('idea_show', { 'id': idea.id }) }}">{{ idea.title }}</a></header>
     <section>{{ idea.content }}</section>
 </article>
 
