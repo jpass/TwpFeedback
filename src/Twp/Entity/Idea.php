@@ -46,7 +46,7 @@ class Idea
     protected $user;
     
     /**
-     * @ORM\OneToOne(targetEntity="Status", inversedBy="idea")
+     * @ORM\OneToOne(targetEntity="Status")
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
      */
     protected $currentStatus;
@@ -57,7 +57,7 @@ class Idea
     protected $statuses;
     
     /**
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="idea")
+     * @ORM\ManyToMany(targetEntity="Comment", mappedBy="idea")
      */
     protected $comments;
     
@@ -75,6 +75,7 @@ class Idea
     }
     
     /**
+     * @ORM\PrePersist
      * @ORM\PreUpdate
      */
     public function setUpdatedAtValue()
