@@ -7,23 +7,27 @@
         <li><a id="new-idea" class="new-button" href="#">Add Idea</a></li>
         <li><a id="new-issue" class="new-button" href="#">Add Issue</a></li>
     </ul>
-    <form action="{{ path('homepage') }}" method="post" {{ form_enctype(form) }}>
-        <h2>I suggest you...</h2>
-        {{ form_widget(form) }}
-        <input type="Submit" value="Add"/>
-    </form>
-    <form id="new-issue-form">
-        <h2>You need to fix...</h2>
-        <div>
-            <span>Enter your issue...</span>
-            <input name="issue[title]" type="text" value="">
-        </div>
-        <div>
-            <span>Describe your issue...</span>
-            <textarea name="issue[content]"></textarea>
-        </div>
-        <input type="Submit" value="Add"/>
-    </form>
+    <div id="new-idea-form">
+        <form action="{{ path('homepage') }}" method="post" {{ form_enctype(form) }}>
+            <h2>I suggest you...</h2>
+            {{ form_widget(form) }}
+            <input type="Submit" value="Add"/>
+        </form>
+    </div>
+    <div id="new-issue-form">
+        <form>
+            <h2>You need to fix...</h2>
+            <div>
+                <span>Enter your issue...</span>
+                <input name="issue[title]" type="text" value="">
+            </div>
+            <div>
+                <span>Describe your issue...</span>
+                <textarea name="issue[content]"></textarea>
+            </div>
+            <input type="Submit" value="Add"/>
+        </form>
+    </div>
 </section>
 <section>
     {% include 'TwpIdeaBundle:Idea:_list.html.twig' with { 'ideas': topIdeas } %}
