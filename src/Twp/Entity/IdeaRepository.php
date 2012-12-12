@@ -8,13 +8,15 @@ class IdeaRepository extends EntityRepository
 {
     public function getTop($firstResult = 0, $maxResult = 5)
     {
-        return $this->createQueryBuilder('i')
+        $v = $this->createQueryBuilder('i')
+                ->select('i, COUNT(v.id) AS cvotes')
                 ->leftJoin('i.votes', 'v')
-                ->groupBy('v.id')
-                ->orderBy('v.id')
+                ->groupBy('i.id')
+                ->orderBy('cvotes', 'desc')
                 ->setFirstResult($firstResult)
                 ->setMaxResults($maxResult)
                 ->getQuery()->execute();
+        return array_map(function($v){ return $v[0]; }, $v);
     }
     
     public function findOneWthComments($id)
