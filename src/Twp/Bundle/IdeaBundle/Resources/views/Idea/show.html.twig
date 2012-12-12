@@ -1,8 +1,15 @@
 {% extends twp_idea_layout %}
 
 {% block content %}
-<article>
+<article id="idea">
     <header>{{ idea.title}}</header>
     <section>{{ idea.content }}</section>
 </article>
+<div class="comments">
+    {% for comment in idea.comments %}
+        <section>
+            {{ comment.content }}
+        </section>
+    {% endfor %}
+</div>
 {% endblock  %}

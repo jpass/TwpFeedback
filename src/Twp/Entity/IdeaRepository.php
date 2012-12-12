@@ -16,4 +16,14 @@ class IdeaRepository extends EntityRepository
                 ->setMaxResults($maxResult)
                 ->getQuery()->execute();
     }
+    
+    public function findOneWthComments($id)
+    {
+        return $this->createQueryBuilder('i')
+                ->select('i, c')
+                ->leftJoin('i.comments', 'c')
+                ->where('i.id = :id')
+                ->setParameter('id', $id)
+                ->getQuery()->getOneOrNullResult();
+    }
 }

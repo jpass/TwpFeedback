@@ -27,7 +27,7 @@ class IdeaController extends Controller
      */
     public function showAction($id)
     {
-        $idea = $this->getDoctrine()->getRepository('Twp:Idea')->findOneById($id);
+        $idea = $this->getDoctrine()->getRepository('Twp:Idea')->findOneWthComments($id);
         
         return array('idea' => $idea);
     }
