@@ -37,6 +37,12 @@ class IdeaController extends Controller
         
         $commentForm = $this->get('commentController')->formAction();
         
+        // check if its admin form
+        if(isset($commentForm['status']))
+        {
+            $commentForm['status']->setData($idea->getCurrentStatus()->getType());
+        }
+        
         if($this->getRequest()->isMethod('POST'))
         {
             $commentForm->bind($this->getRequest());
