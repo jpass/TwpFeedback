@@ -15,7 +15,7 @@ class IdeaController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $user = $this->get('security.context').getToken()->getUser();
+        $user = $this->get('security.context')->getToken()->getUser();
         
         $idea->setUser($user);
         
