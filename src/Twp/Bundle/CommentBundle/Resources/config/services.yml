@@ -1,0 +1,4 @@
+services:
+    commentController:
+        class: Twp\Bundle\CommentBundle\Controller\CommentController
+        arguments:  [@service_container]
