@@ -4,7 +4,6 @@ namespace Twp\Bundle\IdeaBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Twp\Entity\Idea;
@@ -15,7 +14,11 @@ class IdeaController extends Controller
     public function addAction(Idea $idea, $votes)
     {
         $em = $this->getDoctrine()->getManager();
-        // TODO: setUser
+        
+        $user = $this->get('security.context').getToken()->getUser();
+        
+        $idea->setUser($user);
+        
         $em->persist($idea);
         $em->flush();
         
