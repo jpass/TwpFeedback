@@ -11,6 +11,12 @@ use Doctrine\ORM\Mapping as ORM;
 class Status
 {
     const STATUS_NEW = 1;
+    const STATUS_UNDER_REVIEW = 2;
+    const STATUS_PLANNED = 3;
+    const STATUS_STARTED = 4;
+    const STATUS_COMPLETED = 5;
+    const STATUS_DECLINED = 6;
+    const STATUS_DUPLICATE = 7;
     
     /**
      * @ORM\Id
@@ -48,6 +54,11 @@ class Status
      * @ORM\JoinColumn(name="comment_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $comment;
+    
+    public function __construct($type = self::STATUS_NEW)
+    {
+        $this->type = $type;
+    }
     
     /**
      * @ORM\PrePersist
@@ -180,5 +191,24 @@ class Status
     public function getComment()
     {
         return $this->comment;
+    }
+    
+    public static function getChoices()
+    {
+        return array(
+            self::STATUS_NEW => 'new',
+            self::STATUS_UNDER_REVIEW => 'under review',
+            self::STATUS_PLANNED => 'planned',
+            self::STATUS_STARTED => 'started',
+            self::STATUS_COMPLETED => 'completed',
+            self::STATUS_DECLINED => 'declined',
+            self::STATUS_DUPLICATE => 'duplicate'
+        );
+    }
+    
+    public function __toString() 
+    {
+        $v = $this->getChoices();
+        return $v[$this->getType()];
     }
 }
