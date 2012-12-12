@@ -1,4 +1,8 @@
-<div id="vote">
+<div class="vote">
+    <div class="votes-count">
+        <strong>{{ idea.votes.count }}</strong>
+        <span>Vote{{ idea.votes.count > 1 ? 's' : '' }}</span>
+    </div>
     <span>Vote</span>
     {% if is_granted('ROLE_USER') %}
         {% if app.user.remainingVotes %}
