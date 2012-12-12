@@ -11,12 +11,14 @@ use Twp\Entity\Idea;
 
 class IdeaController extends Controller
 {
-    public function addAction(Idea $idea)
+    public function addAction(Idea $idea, $votes)
     {
         $em = $this->getDoctrine()->getManager();
         // TODO: setUser
         $em->persist($idea);
         $em->flush();
+        
+        $this->voteAction($idea->getId(), $votes);
         
         return $this->redirect($this->generateUrl('idea_show', array('id' => $idea->getId())));
     }
@@ -39,5 +41,22 @@ class IdeaController extends Controller
     public function listAction()
     {
         return array('ideas' => $this->getDoctrine()->getRepository('Twp:Idea')->findAll());
+    }
+    
+    public function voteAction($id, $votes)
+    {
+        if(!$votes)
+        {
+            throw new \Exception('Trying to add 0 votes');
+        }
+        
+        $idea = $this->getDoctrine()->getRepository('Twp:Idea')->findOneById($id);
+        
+        if(!$idea)
+        {
+            throw $this->createNotFoundException('Idea not found');
+        }
+        
+        return $this->redirect($this->generateUrl('idea_show', array('id' => $id)));
     }
 }

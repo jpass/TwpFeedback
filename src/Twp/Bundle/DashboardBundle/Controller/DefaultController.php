@@ -22,7 +22,7 @@ class DefaultController extends Controller
         {
             $form->bind($this->getRequest());
             if ($form->isValid()) {
-                return $this->forward('TwpIdeaBundle:Idea:add', array('idea' => $form->getData()));
+                return $this->forward('TwpIdeaBundle:Idea:add', array('idea' => $form->getData(), 'votes' => $form->get('votes')->getData()));
             }
         }
         
