@@ -98,4 +98,31 @@ class IdeaController extends Controller
         
         return $this->redirect($this->generateUrl('idea_show', array('id' => $id)));
     }
+    
+    /**
+     * @Route("/idea/{id}/remove-votes", name="idea_remove_votes")
+     */
+    public function removeVotesAction($id)
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $idea = $this->getDoctrine()->getRepository('Twp:Idea')->findOneById($id);
+        
+        if(!$idea)
+        {
+            throw $this->createNotFoundException('Idea not found');
+        }
+        
+        $votes = $this->getDoctrine()->getRepository('Twp:Vote')->findBy(array('user' => $user->getId(), 'idea' => $id));
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        foreach($votes as $vote)
+        {
+            $em->remove($vote);
+        }
+        
+        $em->flush();        
+        
+        return $this->redirect($this->generateUrl('idea_show', array('id' => $id)));
+    }
 }

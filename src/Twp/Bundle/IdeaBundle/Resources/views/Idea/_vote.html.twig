@@ -5,14 +5,19 @@
     </div>
     <span>Vote</span>
     {% if is_granted('ROLE_USER') %}
-        {% if app.user.remainingVotes %}
+        {% set votedHere = app.user.getVotesForIdea(idea) | length %}
+        {% set remainingVotes = app.user.remainingVotes + votedHere %}
+        {% if remainingVotes %}
             <ul>
-                <li><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 1 }) }}">1 Vote</a></li>
-                {% if app.user.remainingVotes > 1 %}
-                <li><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 2 }) }}">2 Vote</a></li>
+                    <li class="{{ votedHere == 1 ? 'active' : '' }}"><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 1 }) }}">1 Vote</a></li>
+                {% if remainingVotes > 1 %}
+                    <li class="{{ votedHere == 2 ? 'active' : '' }}"><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 2 }) }}">2 Vote</a></li>
                 {% endif %}
-                {% if app.user.remainingVotes > 2 %}
-                <li><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 3 }) }}">3 Vote</a></li>
+                {% if remainingVotes > 2 %}
+                    <li class="{{ votedHere == 3 ? 'active' : '' }}"><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 3 }) }}">3 Vote</a></li>
+                {% endif %}
+                {% if votedHere and idea.user != app.user %}
+                    <li><a href="{{ path('idea_remove_votes', { 'id': idea.id }) }}">Remove votes</a></li>
                 {% endif %}
             </ul>
         {% else %}

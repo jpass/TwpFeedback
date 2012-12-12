@@ -445,4 +445,18 @@ class User implements UserInterface, \Serializable
     {
         return self::USER_VOTES_AVAILABLE - count($this->getVotes());
     }
+    
+    public function getVotesforIdea($idea)
+    {
+        $v = $this->getVotes();
+        $arr = array();
+        foreach($v as $item)
+        {
+            if($item->getIdea() === $idea)
+            {
+                $arr[] = $item;
+            }
+        }
+        return $arr;
+    }
 }
