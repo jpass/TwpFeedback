@@ -15,7 +15,7 @@ class IdeaType extends AbstractType
             ->add('title', null, array('label' => 'Enter your idea...'))
             ->add('content', null, array('label' => 'Describe your idea...'))
             ->add('votes', 'choice', array(
-                'choices' => array(1,2,3),
+                'choices' => array(1 => 1, 2 => 2, 3 => 3),
                 'mapped' => false,
                 'expanded' => true
                 ));
