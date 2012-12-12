@@ -31,7 +31,20 @@ class IdeaController extends Controller
     {
         $idea = $this->getDoctrine()->getRepository('Twp:Idea')->findOneWthComments($id);
         
-        return array('idea' => $idea);
+        $commentForm = $this->get('commentController')->formAction();
+        
+        if($this->getRequest()->isMethod('POST'))
+        {
+            $commentForm->bind($this->getRequest());
+            if ($commentForm->isValid()) 
+            {
+                $commentForm->getData()->setIdea($idea);
+                $this->get('commentController')->addAction($commentForm->getData());
+                return $this->redirect($this->generateUrl('idea_show', array('id' => $id)));
+            }
+        }
+        
+        return array('idea' => $idea, 'commentForm' => $commentForm->createView());
     }
     
     /**
@@ -43,6 +56,9 @@ class IdeaController extends Controller
         return array('ideas' => $this->getDoctrine()->getRepository('Twp:Idea')->findAll());
     }
     
+    /**
+     * @Route("/idea/{id}/vote/{votes}", requirements={"id" = "\d+", "votes" = "[1-3]"}, name="idea_vote")
+     */
     public function voteAction($id, $votes)
     {
         if(!$votes)
