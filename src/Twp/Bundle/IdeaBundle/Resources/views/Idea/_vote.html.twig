@@ -17,7 +17,7 @@
                     <li class="{{ votedHere == 3 ? 'active' : '' }}"><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 3 }) }}">3 Vote</a></li>
                 {% endif %}
                 {% if votedHere and idea.user != app.user %}
-                    <li><a href="{{ path('idea_remove_votes', { 'id': idea.id }) }}">Remove votes</a></li>
+                    <li><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 0 }) }}">Remove votes</a></li>
                 {% endif %}
             </ul>
         {% else %}

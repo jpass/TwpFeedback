@@ -61,15 +61,10 @@ class IdeaController extends Controller
     }
     
     /**
-     * @Route("/idea/{id}/vote/{votes}", requirements={"id" = "\d+", "votes" = "[1-3]"}, name="idea_vote")
+     * @Route("/idea/{id}/vote/{votes}", requirements={"id" = "\d+", "votes" = "[0-3]"}, name="idea_vote")
      */
     public function voteAction($id, $votes)
-    {
-        if(!$votes)
-        {
-            throw new \Exception('Trying to add 0 votes');
-        }
-        
+    {       
         $user = $this->get('security.context')->getToken()->getUser();
         
         if(!$user->getRemainingVotes())
@@ -87,6 +82,17 @@ class IdeaController extends Controller
         
         $em = $this->getDoctrine()->getEntityManager();
         
+        // if user voted for this idea before we ensure we only add new votes or remove old ones
+        $votedCount = $this->getDoctrine()->getRepository('Twp:Vote')->findBy(array('user' => $user->getId(), 'idea' => $id));
+        $votes = $votes - count($votedCount);
+        
+        // remove unwanted votes
+        for($i = 0; $i < ($votes * -1); $i++)
+        {
+            $em->remove($votedCount[$i]);
+        }
+        
+        // or add more
         for($i = 0; $i < $votes; $i++)
         {
             $vote = new Vote();
@@ -94,33 +100,6 @@ class IdeaController extends Controller
             $vote->setIdea($idea);
             $em->persist($vote);
         }
-        $em->flush();        
-        
-        return $this->redirect($this->generateUrl('idea_show', array('id' => $id)));
-    }
-    
-    /**
-     * @Route("/idea/{id}/remove-votes", name="idea_remove_votes")
-     */
-    public function removeVotesAction($id)
-    {
-        $user = $this->get('security.context')->getToken()->getUser();
-        
-        $idea = $this->getDoctrine()->getRepository('Twp:Idea')->findOneById($id);
-        
-        if(!$idea)
-        {
-            throw $this->createNotFoundException('Idea not found');
-        }
-        
-        $votes = $this->getDoctrine()->getRepository('Twp:Vote')->findBy(array('user' => $user->getId(), 'idea' => $id));
-        
-        $em = $this->getDoctrine()->getEntityManager();
-        foreach($votes as $vote)
-        {
-            $em->remove($vote);
-        }
-        
         $em->flush();        
         
         return $this->redirect($this->generateUrl('idea_show', array('id' => $id)));
