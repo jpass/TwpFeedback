@@ -1,0 +1,8 @@
+<div id="vote">
+    <span>Vote</span>
+    <ul>
+        <li><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 1 }) }}">1 Vote</a></li>
+        <li><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 2 }) }}">2 Vote</a></li>
+        <li><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 3 }) }}">3 Vote</a></li>
+    </ul>
+</div>

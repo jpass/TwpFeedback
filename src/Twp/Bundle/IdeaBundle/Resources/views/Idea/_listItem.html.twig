@@ -1,4 +1,5 @@
 <article>
+    {% include 'TwpIdeaBundle:Idea:_vote.html.twig' with { 'idea': idea } %}
     <header><a href="{{ path('idea_show', { 'id': idea.id }) }}">{{ idea.title }}</a></header>
     <section>{{ idea.content }}</section>
 </article>
