@@ -1,8 +1,21 @@
 <div id="vote">
     <span>Vote</span>
-    <ul>
-        <li><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 1 }) }}">1 Vote</a></li>
-        <li><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 2 }) }}">2 Vote</a></li>
-        <li><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 3 }) }}">3 Vote</a></li>
-    </ul>
+    {% if is_granted('ROLE_USER') %}
+        {% if app.user.remainingVotes %}
+            <ul>
+                <li><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 1 }) }}">1 Vote</a></li>
+                {% if app.user.remainingVotes > 1 %}
+                <li><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 2 }) }}">2 Vote</a></li>
+                {% endif %}
+                {% if app.user.remainingVotes > 2 %}
+                <li><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 3 }) }}">3 Vote</a></li>
+                {% endif %}
+            </ul>
+        {% else %}
+            <p>You have no votes left. Please wait until your voted ideas are closed to gain your votes back.</p>
+            <p></p>
+        {% endif %}
+    {% else %}
+        <a href="{{ path('login') }}">Sign in to vote</a>
+    {% endif %}
 </div>

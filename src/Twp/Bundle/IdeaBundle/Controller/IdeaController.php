@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Twp\Entity\Idea;
+use Twp\Entity\Vote;
 
 class IdeaController extends Controller
 {
@@ -66,12 +67,31 @@ class IdeaController extends Controller
             throw new \Exception('Trying to add 0 votes');
         }
         
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        if(!$user->getRemainingVotes())
+        {
+            // someone is cheating
+            throw new \Exception('You have no more votes');
+        }
+        
         $idea = $this->getDoctrine()->getRepository('Twp:Idea')->findOneById($id);
         
         if(!$idea)
         {
             throw $this->createNotFoundException('Idea not found');
         }
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        for($i = 0; $i < $votes; $i++)
+        {
+            $vote = new Vote();
+            $vote->setUser($user);
+            $vote->setIdea($idea);
+            $em->persist($vote);
+        }
+        $em->flush();        
         
         return $this->redirect($this->generateUrl('idea_show', array('id' => $id)));
     }

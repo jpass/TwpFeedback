@@ -12,6 +12,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, \Serializable
 {
     /**
+     * number of votes user can use
+     */
+    const USER_VOTES_AVAILABLE = 10;
+    
+    /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -434,5 +439,10 @@ class User implements UserInterface, \Serializable
         list (
             $this->id,
         ) = unserialize($serialized);
+    }
+    
+    public function getRemainingVotes()
+    {
+        return self::USER_VOTES_AVAILABLE - count($this->getVotes());
     }
 }
