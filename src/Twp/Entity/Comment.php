@@ -38,8 +38,8 @@ class Comment
     /**
      * @ORM\ManyToMany(targetEntity="Idea", inversedBy="comments", cascade={"remove"})
      * @ORM\JoinTable(name="idea_comments", 
-     *      joinColumns={@ORM\JoinColumn(name="idea_id", onDelete="CASCADE")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="comment_id", unique=true, onDelete="CASCADE")}
+     *      joinColumns={@ORM\JoinColumn(name="idea_id", onDelete="CASCADE", unique=true)},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="comment_id", onDelete="CASCADE")}
      * )
      */
     protected $idea;
@@ -144,9 +144,9 @@ class Comment
      * @param Twp\Entity\Idea $idea
      * @return Comment
      */
-    public function addIdea(\Twp\Entity\Idea $idea)
+    public function setIdea(\Twp\Entity\Idea $idea)
     {
-        $this->idea[] = $idea;
+        $this->idea = new \Doctrine\Common\Collections\ArrayCollection(array($idea));
     
         return $this;
     }
