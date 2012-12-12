@@ -36,7 +36,7 @@ class Comment
     // Relations
     
     /**
-     * @ORM\ManyToMany(targetEntity="Idea", inversedBy="comments", cascade={"remove"})
+     * @ORM\ManyToMany(targetEntity="Idea", inversedBy="comments")
      * @ORM\JoinTable(name="idea_comments", 
      *      joinColumns={@ORM\JoinColumn(name="idea_id", onDelete="CASCADE", unique=true)},
      *      inverseJoinColumns={@ORM\JoinColumn(name="comment_id", onDelete="CASCADE")}
