@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Twp\Entity\Idea;
 use Twp\Entity\Vote;
+use \Twp\Entity\Status;
 
 class IdeaController extends Controller
 {
@@ -18,6 +19,10 @@ class IdeaController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         
         $idea->setUser($user);
+        
+        $status = new Status();
+        $em->persist($status);
+        $idea->addStatus($status);
         
         $em->persist($idea);
         $em->flush();
