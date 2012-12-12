@@ -17,7 +17,8 @@ class IdeaType extends AbstractType
             ->add('votes', 'choice', array(
                 'choices' => array(1 => 1, 2 => 2, 3 => 3),
                 'mapped' => false,
-                'expanded' => true
+                'expanded' => true,
+                'data' => 1
                 ));
     }
 
