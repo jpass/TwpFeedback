@@ -51,7 +51,7 @@ class Idea
     
     /**
      * @ORM\OneToOne(targetEntity="Status")
-     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $currentStatus;
     
