@@ -36,6 +36,6 @@ class CommentController extends Controller
         $em->persist($comment);
         $em->flush();
         
-        return;
+        return $comment;
     }
 }
