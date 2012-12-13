@@ -71,6 +71,11 @@ class Idea
     protected $votes;
     
     /**
+     * @ORM\OneToMany(targetEntity="Watch", mappedBy="user")
+     */
+    protected $watchers;
+    
+    /**
      * @ORM\PrePersist
      */
     public function setCreatedAtValue()
@@ -343,5 +348,61 @@ class Idea
     public function getVotes()
     {
         return $this->votes;
+    }
+
+    /**
+     * Add statuses
+     *
+     * @param \Twp\Entity\Status $statuses
+     * @return Idea
+     */
+    public function addStatuse(\Twp\Entity\Status $statuses)
+    {
+        $this->statuses[] = $statuses;
+    
+        return $this;
+    }
+
+    /**
+     * Remove statuses
+     *
+     * @param \Twp\Entity\Status $statuses
+     */
+    public function removeStatuse(\Twp\Entity\Status $statuses)
+    {
+        $this->statuses->removeElement($statuses);
+    }
+
+    /**
+     * Add watchers
+     *
+     * @param \Twp\Entity\Watch $watchers
+     * @return Idea
+     */
+    public function addWatcher(\Twp\Entity\Watch $watchers)
+    {
+        $this->watchers[] = $watchers;
+    
+        return $this;
+    }
+
+    /**
+     * Remove watchers
+     *
+     * @param \Twp\Entity\Watch $watchers
+     */
+    public function removeWatcher(\Twp\Entity\Watch $watchers)
+    {
+        $this->watchers->removeElement($watchers);
+    }
+
+    /**
+     * Get watchers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getWatchers()
+    {
+        return $this->watchers;
     }
 }

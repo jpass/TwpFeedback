@@ -87,6 +87,11 @@ class User implements UserInterface, \Serializable
     protected $comments;
     
     /**
+     * @ORM\OneToMany(targetEntity="Watch", mappedBy="user")
+     */
+    protected $watching;
+    
+    /**
      * @ORM\PrePersist
      */
     public function setCreatedAtValue()
@@ -458,5 +463,38 @@ class User implements UserInterface, \Serializable
             }
         }
         return $arr;
+    }
+
+    /**
+     * Add watching
+     *
+     * @param \Twp\Entity\Watch $watching
+     * @return User
+     */
+    public function addWatching(\Twp\Entity\Watch $watching)
+    {
+        $this->watching[] = $watching;
+    
+        return $this;
+    }
+
+    /**
+     * Remove watching
+     *
+     * @param \Twp\Entity\Watch $watching
+     */
+    public function removeWatching(\Twp\Entity\Watch $watching)
+    {
+        $this->watching->removeElement($watching);
+    }
+
+    /**
+     * Get watching
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getWatching()
+    {
+        return $this->watching;
     }
 }

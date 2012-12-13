@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class Vote
+class Watch
 {
     /**
      * @ORM\Id
@@ -23,13 +23,13 @@ class Vote
     protected $createdAt;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Idea", inversedBy="votes")
+     * @ORM\ManyToOne(targetEntity="Idea", inversedBy="watchers")
      * @ORM\JoinColumn(name="idea_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $idea;
     
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="votes")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="watching")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $user;

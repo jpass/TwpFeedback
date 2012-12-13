@@ -12,6 +12,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, \Serializable
 {
     /**
+     * number of votes user can use
+     */
+    const USER_VOTES_AVAILABLE = 10;
+    
+    /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -29,12 +34,12 @@ class User implements UserInterface, \Serializable
     protected $name;
 
     /**
-     * @ORM\Column(type="string", length=32)
+     * @ORM\Column(type="string", length=100)
      */
     protected $salt;
 
     /**
-     * @ORM\Column(type="string", length=40)
+     * @ORM\Column(type="string", length=100)
      */
     protected $password;
 
@@ -80,6 +85,11 @@ class User implements UserInterface, \Serializable
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
      */
     protected $comments;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Watch", mappedBy="user")
+     */
+    protected $watching;
     
     /**
      * @ORM\PrePersist
@@ -326,6 +336,10 @@ class User implements UserInterface, \Serializable
     
         return $this;
     }
+    
+    public function getSalt() {
+        $this->salt;
+    }
 
     /**
      * Set password
@@ -338,6 +352,10 @@ class User implements UserInterface, \Serializable
         $this->password = $password;
     
         return $this;
+    }
+    
+    public function getPassword() {
+        return $this->password;
     }
 
     /**
@@ -387,6 +405,24 @@ class User implements UserInterface, \Serializable
     }
     
     
+    /**
+     * Set roles
+     *
+     * @param array $roles
+     * @return User
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+    
+        return $this;
+    }
+    
+    public function getRoles() {
+        return $this->roles;
+    }
+    
+    
     public function eraseCredentials() {
         
     }
@@ -409,16 +445,23 @@ class User implements UserInterface, \Serializable
             $this->id,
         ) = unserialize($serialized);
     }
-
-    public function getPassword() {
-        
+    
+    public function getRemainingVotes()
+    {
+        return self::USER_VOTES_AVAILABLE - count($this->getVotes());
     }
-
-    public function getRoles() {
-        
-    }
-
-    public function getSalt() {
-        
+    
+    public function getVotesforIdea($idea)
+    {
+        $v = $this->getVotes();
+        $arr = array();
+        foreach($v as $item)
+        {
+            if($item->getIdea() === $idea)
+            {
+                $arr[] = $item;
+            }
+        }
+        return $arr;
     }
 }
