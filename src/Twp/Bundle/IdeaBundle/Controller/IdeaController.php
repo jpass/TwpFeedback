@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Twp\Entity\Idea;
 use Twp\Entity\Vote;
 use \Twp\Entity\Status;
+use \Twp\Entity\Watch;
 
 class IdeaController extends Controller
 {
@@ -131,6 +132,61 @@ class IdeaController extends Controller
             $em->persist($vote);
         }
         $em->flush();        
+        
+        return $this->redirect($this->generateUrl('idea_show', array('id' => $id)));
+    }
+    
+    /**
+     * @Route("/idea/{id}/watch", name="idea_watch")
+     */
+    public function watchAction($id)
+    {
+        $idea = $this->getDoctrine()->getRepository('Twp:Idea')->findOneById($id);
+        
+        if(!$idea)
+        {
+            throw $this->createNotFoundException('Idea not found');
+        }
+        
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $watch = $this->getDoctrine()->getRepository('Twp:Watch')->findOneBy(array('user' => $user, 'idea' => $idea));
+        
+        if(!$watch)
+        {
+            $watch = new Watch();
+            $watch->setUser($user)->setIdea($idea);
+            
+            $em = $this->getDoctrine()->getEntityManager();
+            $em->persist($watch);
+            $em->flush();
+        }
+        
+        return $this->redirect($this->generateUrl('idea_show', array('id' => $id))); 
+    }
+    
+    /**
+     * @Route("/idea/{id}/unwatch", name="idea_unwatch")
+     */
+    public function unwatchAction($id)
+    {
+        $idea = $this->getDoctrine()->getRepository('Twp:Idea')->findOneById($id);
+        
+        if(!$idea)
+        {
+            throw $this->createNotFoundException('Idea not found');
+        }
+        
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $watch = $this->getDoctrine()->getRepository('Twp:Watch')->findOneBy(array('user' => $user, 'idea' => $idea));
+        
+        if($watch)
+        {   
+            $em = $this->getDoctrine()->getEntityManager();
+            $em->remove($watch);
+            $em->flush();
+        }
         
         return $this->redirect($this->generateUrl('idea_show', array('id' => $id)));
     }
