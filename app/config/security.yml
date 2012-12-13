@@ -19,7 +19,10 @@ security:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        login:
+        #api:
+        #    pattern:  ^/api.*
+        #    security: false
+        login_firewall:
             pattern:  ^/.*
             security: true
             form_login: ~
@@ -30,6 +33,7 @@ security:
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/.*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/.+, roles: ROLE_USER }
         - { path: ^/.*, roles: ROLE_USER, methods: [POST] }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
