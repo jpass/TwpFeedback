@@ -9,23 +9,16 @@
     </ul>
     <div id="dashboard-panes">
         <div id="new-idea-form">
-            <form action="{{ path('homepage') }}" method="post" {{ form_enctype(form) }}>
+            <form action="{{ path('homepage') }}" method="post" {{ form_enctype(ideaForm) }}>
                 <h2>I suggest you...</h2>
-                {{ form_widget(form) }}
+                {{ form_widget(ideaForm) }}
                 <input type="Submit" value="Add"/>
             </form>
         </div>
         <div id="new-issue-form">
-            <form>
-                <h2>You need to fix...</h2>
-                <div>
-                    <span>Enter your issue...</span>
-                    <input name="issue[title]" type="text" value="">
-                </div>
-                <div>
-                    <span>Describe your issue...</span>
-                    <textarea name="issue[content]"></textarea>
-                </div>
+            <form action="{{ path('homepage') }}" method="post" {{ form_enctype(issueForm) }}>
+                <h2>You need to fix....</h2>
+                {{ form_widget(issueForm) }}
                 <input type="Submit" value="Add"/>
             </form>
         </div>

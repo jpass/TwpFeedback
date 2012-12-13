@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Twp\Form\Type\IdeaType;
+use Twp\Form\Type\IssueType;
 use Symfony\Component\Security\Core\SecurityContext;
 
 use \Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -19,17 +20,26 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $form = $this->createForm(new IdeaType());
+        $ideaForm = $this->createForm(new IdeaType());
+        $issueForm = $this->createForm(new IssueType());
         
         if($this->getRequest()->isMethod('POST'))
         {
-            $form->bind($this->getRequest());
-            if ($form->isValid()) {
-                return $this->forward('TwpIdeaBundle:Idea:add', array('idea' => $form->getData(), 'votes' => $form->get('votes')->getData()));
+            $ideaForm->bind($this->getRequest());
+            $issueForm->bind($this->getRequest());
+            if ($ideaForm->isValid()) {
+                return $this->forward('TwpIdeaBundle:Idea:add', array('idea' => $ideaForm->getData(), 'votes' => $ideaForm->get('votes')->getData()));
+            }
+            if ($issueForm->isValid()) {
+                //return $this->forward('TwpIssueBundle:Issue:add', array('issue' => $issueForm->getData()));
             }
         }
         
-        return array('form' => $form->createView(), 'topIdeas' => $this->getDoctrine()->getRepository('Twp:Idea')->getTop());
+        return array(
+            'ideaForm' => $ideaForm->createView(),
+            'issueForm' => $issueForm->createView(),
+            'topIdeas' => $this->getDoctrine()->getRepository('Twp:Idea')->getTop()
+                );
     }
     
     /**
