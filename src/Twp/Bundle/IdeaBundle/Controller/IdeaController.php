@@ -25,9 +25,14 @@ class IdeaController extends Controller
         $status->setUser($user);
         $status->setIdea($idea);
         $em->persist($status);
-        $idea->addStatus($status);
         
+        $idea->addStatus($status);
         $em->persist($idea);
+        
+        $watch = new Watch();
+        $watch->setUser($user)->setIdea($idea);
+        $em->persist($watch);
+        
         $em->flush();
         
         $this->voteAction($idea->getId(), $votes);
