@@ -88,4 +88,52 @@ class IssueController extends Controller
     {
         return array('issues' => $this->getDoctrine()->getRepository('Twp:Issue')->findAll());
     }
+    
+    /**
+     * @Route("/issue/{id}/mark", name="issue_mark")
+     */
+    public function markAction($id)
+    {
+        $issue = $this->getDoctrine()->getRepository('Twp:Issue')->findOneById($id);
+        
+        if(!$issue)
+        {
+            throw $this->createNotFoundException('Issue not found');
+        }
+        
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $marked = $issue->getAffectedUsers()->contains($user);
+        
+        if(!$marked)
+        {
+            $issue->getAffectedUsers()->add($user);
+            $em = $this->getDoctrine()->getEntityManager();
+            $em->persist($issue);
+            $em->flush();
+        }
+        
+         return $this->redirect($this->generateUrl('issue_show', array('id' => $issue->getId())));
+    }
+    
+    /**
+     * @Route("/issue/{id}/unmark", name="issue_unmark")
+     */
+    public function unmarkAction($id)
+    {
+        $issue = $this->getDoctrine()->getRepository('Twp:Issue')->findOneById($id);
+        
+        if(!$issue)
+        {
+            throw $this->createNotFoundException('Issue not found');
+        }
+        
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $issue->getAffectedUsers()->removeElement($user);
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->flush();
+        
+        return $this->redirect($this->generateUrl('issue_show', array('id' => $issue->getId())));
+    }
 }
