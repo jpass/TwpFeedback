@@ -22,12 +22,14 @@ class CommentType extends AbstractType
         {
             $builder->add('change_status', 'checkbox', array(
                 'mapped' => false,
-                'label' => 'Change status?'
+                'label' => 'Change status?',
+                'required' => false
             ));
             $builder->add('status', 'choice', array(
                 'mapped' => false,
                 'label' => '',
-                'choices' => \Twp\Entity\Status::getChoices()
+                'choices' => \Twp\Entity\Status::getChoices(),
+                'required' => false
             ));
         }
     }
