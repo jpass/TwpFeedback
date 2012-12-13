@@ -79,4 +79,13 @@ class IssueController extends Controller
         
         return array('issue' => $issue, 'commentForm' => $commentForm->createView());
     }
+    
+    /**
+     * @Route("/issue")
+     * @Template()
+     */
+    public function listAction()
+    {
+        return array('issues' => $this->getDoctrine()->getRepository('Twp:Issue')->findAll());
+    }
 }

@@ -1,0 +1,5 @@
+{% extends twp_idea_layout %}
+
+{% block content %}
+    {% include 'TwpIssueBundle:Issue:_list.html.twig' with { 'issues': issues } %}
+{% endblock  %}
