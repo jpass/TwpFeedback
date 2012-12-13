@@ -21,6 +21,8 @@ class IdeaController extends Controller
         $idea->setUser($user);
         
         $status = new Status();
+        $status->setUser($user);
+        $status->setIdea($idea);
         $em->persist($status);
         $idea->addStatus($status);
         
@@ -53,8 +55,25 @@ class IdeaController extends Controller
             $commentForm->bind($this->getRequest());
             if ($commentForm->isValid()) 
             {
-                $commentForm->getData()->setIdea($idea);
-                $this->get('commentController')->addAction($commentForm->getData());
+                $em = $this->getDoctrine()->getManager();
+                $user = $this->get('security.context')->getToken()->getUser();
+                $comment = $commentForm->getData();
+                $comment->setUser($user);
+                $comment->setIdea($idea);
+                $em->persist($comment);
+                if(isset($commentForm['change_status']) && $commentForm['change_status']->getData())
+                {
+                    $status = new Status($commentForm['status']->getData());
+                    $status->setUser($user);
+                    $status->setIdea($idea);
+                    $status->setComment($comment);
+                    $em->persist($status);
+                    
+                    $idea->addStatus($status);
+                    $em->persist($idea);
+                }
+                $em->flush();
+                
                 return $this->redirect($this->generateUrl('idea_show', array('id' => $id)));
             }
         }
