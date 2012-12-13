@@ -44,6 +44,12 @@ class Status
     protected $idea;
     
     /**
+     * @ORM\ManyToOne(targetEntity="Issue", inversedBy="statuses")
+     * @ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $issue;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="statuses")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
      */

@@ -45,6 +45,15 @@ class Comment
     protected $idea;
     
     /**
+     * @ORM\ManyToMany(targetEntity="Issue", inversedBy="comments")
+     * @ORM\JoinTable(name="issue_comments", 
+     *      joinColumns={@ORM\JoinColumn(name="comment_id", onDelete="CASCADE", unique=true)},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="issue_id", onDelete="CASCADE")}
+     * )
+     */
+    protected $issue;
+    
+    /**
      * @ORM\OnetoOne(targetEntity="Status", mappedBy="comment")
      */
     protected $status;

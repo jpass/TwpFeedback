@@ -44,6 +44,12 @@ class Status
     protected $idea;
     
     /**
+     * @ORM\ManyToOne(targetEntity="Issue", inversedBy="statuses")
+     * @ORM\JoinColumn(name="issue_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $issue;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="statuses")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="SET NULL")
      */
@@ -210,5 +216,28 @@ class Status
     {
         $v = $this->getChoices();
         return $v[$this->getType()];
+    }
+
+    /**
+     * Set issue
+     *
+     * @param \Twp\Entity\Issue $issue
+     * @return Status
+     */
+    public function setIssue(\Twp\Entity\Issue $issue = null)
+    {
+        $this->issue = $issue;
+    
+        return $this;
+    }
+
+    /**
+     * Get issue
+     *
+     * @return \Twp\Entity\Issue 
+     */
+    public function getIssue()
+    {
+        return $this->issue;
     }
 }

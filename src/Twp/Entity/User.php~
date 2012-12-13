@@ -92,6 +92,16 @@ class User implements UserInterface, \Serializable
     protected $watching;
     
     /**
+     * @ORM\OneToMany(targetEntity="Issue", mappedBy="user")
+     */
+    protected $issues;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Issue", mappedBy="affectedUsers")
+     */
+    protected $affectedByIssues;
+    
+    /**
      * @ORM\PrePersist
      */
     public function setCreatedAtValue()
@@ -107,6 +117,7 @@ class User implements UserInterface, \Serializable
         $this->votes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->statuses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->watching = new \Doctrine\Common\Collections\ArrayCollection();
         
         $this->isActive = true;
         $this->salt = md5(uniqid(null, true));
@@ -463,5 +474,49 @@ class User implements UserInterface, \Serializable
             }
         }
         return $arr;
+    }
+    
+    public function isWatching($idea_id)
+    {
+        // TODO: find better way to check, this is ugly
+        foreach ($this->getWatching() as $item) {
+             if ($item->getIdea()->getId() == $idea_id) {
+                 return true;
+             }
+         }
+        return false;
+    }
+
+    /**
+     * Add watching
+     *
+     * @param \Twp\Entity\Watch $watching
+     * @return User
+     */
+    public function addWatching(\Twp\Entity\Watch $watching)
+    {
+        $this->watching[] = $watching;
+    
+        return $this;
+    }
+
+    /**
+     * Remove watching
+     *
+     * @param \Twp\Entity\Watch $watching
+     */
+    public function removeWatching(\Twp\Entity\Watch $watching)
+    {
+        $this->watching->removeElement($watching);
+    }
+
+    /**
+     * Get watching
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getWatching()
+    {
+        return $this->watching;
     }
 }

@@ -92,6 +92,16 @@ class User implements UserInterface, \Serializable
     protected $watching;
     
     /**
+     * @ORM\OneToMany(targetEntity="Issue", mappedBy="user")
+     */
+    protected $issues;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Issue", mappedBy="affectedUsers")
+     */
+    protected $affectedByIssues;
+    
+    /**
      * @ORM\PrePersist
      */
     public function setCreatedAtValue()
@@ -508,5 +518,71 @@ class User implements UserInterface, \Serializable
     public function getWatching()
     {
         return $this->watching;
+    }
+
+    /**
+     * Add issues
+     *
+     * @param \Twp\Entity\Issue $issues
+     * @return User
+     */
+    public function addIssue(\Twp\Entity\Issue $issues)
+    {
+        $this->issues[] = $issues;
+    
+        return $this;
+    }
+
+    /**
+     * Remove issues
+     *
+     * @param \Twp\Entity\Issue $issues
+     */
+    public function removeIssue(\Twp\Entity\Issue $issues)
+    {
+        $this->issues->removeElement($issues);
+    }
+
+    /**
+     * Get issues
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIssues()
+    {
+        return $this->issues;
+    }
+
+    /**
+     * Add affectedByIssues
+     *
+     * @param \Twp\Entity\Issue $affectedByIssues
+     * @return User
+     */
+    public function addAffectedByIssue(\Twp\Entity\Issue $affectedByIssues)
+    {
+        $this->affectedByIssues[] = $affectedByIssues;
+    
+        return $this;
+    }
+
+    /**
+     * Remove affectedByIssues
+     *
+     * @param \Twp\Entity\Issue $affectedByIssues
+     */
+    public function removeAffectedByIssue(\Twp\Entity\Issue $affectedByIssues)
+    {
+        $this->affectedByIssues->removeElement($affectedByIssues);
+    }
+
+    /**
+     * Get affectedByIssues
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAffectedByIssues()
+    {
+        return $this->affectedByIssues;
     }
 }

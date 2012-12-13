@@ -45,6 +45,15 @@ class Comment
     protected $idea;
     
     /**
+     * @ORM\ManyToMany(targetEntity="Issue", inversedBy="comments")
+     * @ORM\JoinTable(name="issue_comments", 
+     *      joinColumns={@ORM\JoinColumn(name="comment_id", onDelete="CASCADE", unique=true)},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="issue_id", onDelete="CASCADE")}
+     * )
+     */
+    protected $issue;
+    
+    /**
      * @ORM\OnetoOne(targetEntity="Status", mappedBy="comment")
      */
     protected $status;
@@ -210,5 +219,38 @@ class Comment
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Add issue
+     *
+     * @param \Twp\Entity\Issue $issue
+     * @return Comment
+     */
+    public function addIssue(\Twp\Entity\Issue $issue)
+    {
+        $this->issue[] = $issue;
+    
+        return $this;
+    }
+
+    /**
+     * Remove issue
+     *
+     * @param \Twp\Entity\Issue $issue
+     */
+    public function removeIssue(\Twp\Entity\Issue $issue)
+    {
+        $this->issue->removeElement($issue);
+    }
+
+    /**
+     * Get issue
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIssue()
+    {
+        return $this->issue;
     }
 }

@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="Twp\Entity\IdeaRepository")
+ * @ORM\Entity(repositoryClass="Twp\Entity\IssueRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Idea
+class Issue
 {
     /**
      * @ORM\Id
@@ -44,7 +44,7 @@ class Idea
     // Relations:
     
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="ideas")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="issues")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $user;
@@ -56,24 +56,23 @@ class Idea
     protected $currentStatus;
     
     /**
-     * @ORM\OneToMany(targetEntity="Status", mappedBy="idea", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="Status", mappedBy="issue", cascade={"remove"})
      */
     protected $statuses;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Comment", mappedBy="idea", cascade={"remove"})
+     * @ORM\ManyToMany(targetEntity="Comment", mappedBy="issue", cascade={"remove"})
      */
     protected $comments;
     
     /**
-     * @ORM\OneToMany(targetEntity="Vote", mappedBy="idea", cascade={"remove"})
+     * @ORM\ManyToMany(targetEntity="Idea", inversedBy="affectedByIssues")
+     * @ORM\JoinTable(name="issue_user", 
+     *      joinColumns={@ORM\JoinColumn(name="issue_id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", onDelete="CASCADE")}
+     * )
      */
-    protected $votes;
-    
-    /**
-     * @ORM\OneToMany(targetEntity="Watch", mappedBy="user")
-     */
-    protected $watchers;
+    protected $affectedUsers;
     
     /**
      * @ORM\PrePersist
@@ -98,7 +97,7 @@ class Idea
     {
         $this->statuses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->votes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->affectedUsers = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -115,7 +114,7 @@ class Idea
      * Set title
      *
      * @param string $title
-     * @return Idea
+     * @return Issue
      */
     public function setTitle($title)
     {
@@ -138,7 +137,7 @@ class Idea
      * Set content
      *
      * @param string $content
-     * @return Idea
+     * @return Issue
      */
     public function setContent($content)
     {
@@ -161,7 +160,7 @@ class Idea
      * Set createdAt
      *
      * @param \DateTime $createdAt
-     * @return Idea
+     * @return Issue
      */
     public function setCreatedAt($createdAt)
     {
@@ -184,7 +183,7 @@ class Idea
      * Set updatedAt
      *
      * @param \DateTime $updatedAt
-     * @return Idea
+     * @return Issue
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -206,8 +205,8 @@ class Idea
     /**
      * Set user
      *
-     * @param Twp\Entity\User $user
-     * @return Idea
+     * @param \Twp\Entity\User $user
+     * @return Issue
      */
     public function setUser(\Twp\Entity\User $user = null)
     {
@@ -219,7 +218,7 @@ class Idea
     /**
      * Get user
      *
-     * @return Twp\Entity\User 
+     * @return \Twp\Entity\User 
      */
     public function getUser()
     {
@@ -229,8 +228,8 @@ class Idea
     /**
      * Set currentStatus
      *
-     * @param Twp\Entity\Status $currentStatus
-     * @return Idea
+     * @param \Twp\Entity\Status $currentStatus
+     * @return Issue
      */
     public function setCurrentStatus(\Twp\Entity\Status $currentStatus = null)
     {
@@ -242,7 +241,7 @@ class Idea
     /**
      * Get currentStatus
      *
-     * @return Twp\Entity\Status 
+     * @return \Twp\Entity\Status 
      */
     public function getCurrentStatus()
     {
@@ -252,109 +251,8 @@ class Idea
     /**
      * Add statuses
      *
-     * @param Twp\Entity\Status $statuses
-     * @return Idea
-     */
-    public function addStatus(\Twp\Entity\Status $status)
-    {
-        $this->statuses[] = $status;
-    
-        $this->currentStatus = $status;
-        
-        return $this;
-    }
-
-    /**
-     * Remove statuses
-     *
-     * @param Twp\Entity\Status $statuses
-     */
-    public function removeStatus(\Twp\Entity\Status $status)
-    {
-        $this->statuses->removeElement($status);
-    }
-
-    /**
-     * Get statuses
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getStatuses()
-    {
-        return $this->statuses;
-    }
-
-    /**
-     * Add comments
-     *
-     * @param Twp\Entity\Comment $comments
-     * @return Idea
-     */
-    public function addComment(\Twp\Entity\Comment $comments)
-    {
-        $this->comments[] = $comments;
-    
-        return $this;
-    }
-
-    /**
-     * Remove comments
-     *
-     * @param Twp\Entity\Comment $comments
-     */
-    public function removeComment(\Twp\Entity\Comment $comments)
-    {
-        $this->comments->removeElement($comments);
-    }
-
-    /**
-     * Get comments
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getComments()
-    {
-        return $this->comments;
-    }
-
-    /**
-     * Add votes
-     *
-     * @param Twp\Entity\Vote $votes
-     * @return Idea
-     */
-    public function addVote(\Twp\Entity\Vote $votes)
-    {
-        $this->votes[] = $votes;
-    
-        return $this;
-    }
-
-    /**
-     * Remove votes
-     *
-     * @param Twp\Entity\Vote $votes
-     */
-    public function removeVote(\Twp\Entity\Vote $votes)
-    {
-        $this->votes->removeElement($votes);
-    }
-
-    /**
-     * Get votes
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getVotes()
-    {
-        return $this->votes;
-    }
-
-    /**
-     * Add statuses
-     *
      * @param \Twp\Entity\Status $statuses
-     * @return Idea
+     * @return Issue
      */
     public function addStatuse(\Twp\Entity\Status $statuses)
     {
@@ -374,35 +272,78 @@ class Idea
     }
 
     /**
-     * Add watchers
+     * Get statuses
      *
-     * @param \Twp\Entity\Watch $watchers
-     * @return Idea
+     * @return \Doctrine\Common\Collections\Collection 
      */
-    public function addWatcher(\Twp\Entity\Watch $watchers)
+    public function getStatuses()
     {
-        $this->watchers[] = $watchers;
+        return $this->statuses;
+    }
+
+    /**
+     * Add comments
+     *
+     * @param \Twp\Entity\Comment $comments
+     * @return Issue
+     */
+    public function addComment(\Twp\Entity\Comment $comments)
+    {
+        $this->comments[] = $comments;
     
         return $this;
     }
 
     /**
-     * Remove watchers
+     * Remove comments
      *
-     * @param \Twp\Entity\Watch $watchers
+     * @param \Twp\Entity\Comment $comments
      */
-    public function removeWatcher(\Twp\Entity\Watch $watchers)
+    public function removeComment(\Twp\Entity\Comment $comments)
     {
-        $this->watchers->removeElement($watchers);
+        $this->comments->removeElement($comments);
     }
 
     /**
-     * Get watchers
+     * Get comments
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getWatchers()
+    public function getComments()
     {
-        return $this->watchers;
+        return $this->comments;
+    }
+
+    /**
+     * Add affectedUsers
+     *
+     * @param \Twp\Entity\Idea $affectedUsers
+     * @return Issue
+     */
+    public function addAffectedUser(\Twp\Entity\Idea $affectedUsers)
+    {
+        $this->affectedUsers[] = $affectedUsers;
+    
+        return $this;
+    }
+
+    /**
+     * Remove affectedUsers
+     *
+     * @param \Twp\Entity\Idea $affectedUsers
+     */
+    public function removeAffectedUser(\Twp\Entity\Idea $affectedUsers)
+    {
+        $this->affectedUsers->removeElement($affectedUsers);
+    }
+
+    /**
+     * Get affectedUsers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAffectedUsers()
+    {
+        return $this->affectedUsers;
     }
 }
