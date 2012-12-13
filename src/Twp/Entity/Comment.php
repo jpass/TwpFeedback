@@ -38,11 +38,16 @@ class Comment
     /**
      * @ORM\ManyToMany(targetEntity="Idea", inversedBy="comments")
      * @ORM\JoinTable(name="idea_comments", 
-     *      joinColumns={@ORM\JoinColumn(name="idea_id", onDelete="CASCADE", unique=true)},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="comment_id", onDelete="CASCADE")}
+     *      joinColumns={@ORM\JoinColumn(name="comment_id", onDelete="CASCADE", unique=true)},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="idea_id", onDelete="CASCADE")}
      * )
      */
     protected $idea;
+    
+    /**
+     * @ORM\OnetoOne(targetEntity="Status", mappedBy="comment")
+     */
+    protected $status;
     
     /**
      * @ORM\PrePersist
@@ -169,5 +174,41 @@ class Comment
     public function getIdea()
     {
         return $this->idea;
+    }
+
+    /**
+     * Add idea
+     *
+     * @param \Twp\Entity\Idea $idea
+     * @return Comment
+     */
+    public function addIdea(\Twp\Entity\Idea $idea)
+    {
+        $this->idea[] = $idea;
+    
+        return $this;
+    }
+
+    /**
+     * Set status
+     *
+     * @param \Twp\Entity\Status $status
+     * @return Comment
+     */
+    public function setStatus(\Twp\Entity\Status $status = null)
+    {
+        $this->status = $status;
+    
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return \Twp\Entity\Status 
+     */
+    public function getStatus()
+    {
+        return $this->status;
     }
 }
