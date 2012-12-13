@@ -1,0 +1,17 @@
+{% extends twp_issue_layout %}
+
+{% block content %}
+{% include 'TwpIssueBundle:Issue:_listItem.html.twig' with { 'issue': issue } %}
+<div class="comments">
+    <form action="{{ path('issue_show', { 'id': issue.id }) }}" method="post" {{ form_enctype(commentForm) }}>
+        {{ form_widget(commentForm) }}
+        <input type="Submit" value="Post"/>
+    </form>
+    {% for comment in issue.comments %}
+        <section class="comment">
+            <header>{{ comment.status ? comment.status : '' }}</header>
+            {{ comment.content }}
+        </section>
+    {% endfor %}
+</div>
+{% endblock  %}

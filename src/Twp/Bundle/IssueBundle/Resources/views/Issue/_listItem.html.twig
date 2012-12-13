@@ -1,0 +1,9 @@
+<article class="issue">
+    {#% if is_granted('ROLE_USER') %}
+        <a class="watch {{ app.user.isWatching(idea.id) ? 'active' : ''  }}" href="{{ path(app.user.isWatching(idea.id) ? 'idea_unwatch' : 'idea_watch', { 'id': idea.id })  }}">{{ app.user.isWatching(idea.id) ? 'Unw' : 'W'  }}atch</a>
+    {% endif %#}
+    <header><a href="{{ path('issue_show', { 'id': issue.id }) }}">{{ issue.title }}</a></header>
+    <section>{{ issue.content }}</section>
+    <footer>{{ issue.currentStatus }}</footer>
+</article>
+

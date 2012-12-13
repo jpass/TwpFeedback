@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Twp\Bundle\DashboardBundle\TwpDashboardBundle(),
             new Twp\Bundle\IdeaBundle\TwpIdeaBundle(),
             new Twp\Bundle\CommentBundle\TwpCommentBundle(),
+            new Twp\Bundle\IssueBundle\TwpIssueBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

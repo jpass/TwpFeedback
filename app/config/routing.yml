@@ -1,3 +1,8 @@
+twp_issue:
+    resource: "@TwpIssueBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 twp_comment:
     resource: "@TwpCommentBundle/Controller/"
     type:     annotation

@@ -20,25 +20,26 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $ideaForm = $this->createForm(new IdeaType());
-        $issueForm = $this->createForm(new IssueType());
+        $ideaForm = $this->get('form.factory')->createNamed('new_idea', new IdeaType());
+        $issueForm = $this->get('form.factory')->createNamed('new_issue', new IssueType());
         
         if($this->getRequest()->isMethod('POST'))
         {
-            $ideaForm->bind($this->getRequest());
-            $issueForm->bind($this->getRequest());
+            $ideaForm->bind($this->getRequest()->get('new_idea'));
+            $issueForm->bind($this->getRequest()->get('new_issue'));
             if ($ideaForm->isValid()) {
                 return $this->forward('TwpIdeaBundle:Idea:add', array('idea' => $ideaForm->getData(), 'votes' => $ideaForm->get('votes')->getData()));
             }
             if ($issueForm->isValid()) {
-                //return $this->forward('TwpIssueBundle:Issue:add', array('issue' => $issueForm->getData()));
+                return $this->forward('TwpIssueBundle:Issue:add', array('issue' => $issueForm->getData()));
             }
         }
         
         return array(
             'ideaForm' => $ideaForm->createView(),
             'issueForm' => $issueForm->createView(),
-            'topIdeas' => $this->getDoctrine()->getRepository('Twp:Idea')->getTop()
+            'topIdeas' => $this->getDoctrine()->getRepository('Twp:Idea')->getTop(),
+            'topIssues' => $this->getDoctrine()->getRepository('Twp:Issue')->getTop()
                 );
     }
     
