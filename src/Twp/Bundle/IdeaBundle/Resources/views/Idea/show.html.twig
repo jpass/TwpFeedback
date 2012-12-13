@@ -8,7 +8,8 @@
         <input type="Submit" value="Post"/>
     </form>
     {% for comment in idea.comments %}
-        <section>
+        <section class="comment">
+            <header>{{ comment.status ? comment.status : '' }}</header>
             {{ comment.content }}
         </section>
     {% endfor %}
