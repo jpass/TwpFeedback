@@ -66,7 +66,7 @@ class Issue
     protected $comments;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Idea", inversedBy="affectedByIssues")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="affectedByIssues")
      * @ORM\JoinTable(name="issue_user", 
      *      joinColumns={@ORM\JoinColumn(name="issue_id", onDelete="CASCADE")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", onDelete="CASCADE")}
@@ -251,12 +251,14 @@ class Issue
     /**
      * Add statuses
      *
-     * @param \Twp\Entity\Status $statuses
+     * @param \Twp\Entity\Status $status
      * @return Issue
      */
-    public function addStatuse(\Twp\Entity\Status $statuses)
+    public function addStatus(\Twp\Entity\Status $status)
     {
-        $this->statuses[] = $statuses;
+        $this->statuses[] = $status;
+        
+        $this->currentStatus = $status;
     
         return $this;
     }
@@ -264,11 +266,11 @@ class Issue
     /**
      * Remove statuses
      *
-     * @param \Twp\Entity\Status $statuses
+     * @param \Twp\Entity\Status $status
      */
-    public function removeStatuse(\Twp\Entity\Status $statuses)
+    public function removeStatus(\Twp\Entity\Status $status)
     {
-        $this->statuses->removeElement($statuses);
+        $this->statuses->removeElement($status);
     }
 
     /**
@@ -317,10 +319,10 @@ class Issue
     /**
      * Add affectedUsers
      *
-     * @param \Twp\Entity\Idea $affectedUsers
+     * @param \Twp\Entity\User $affectedUsers
      * @return Issue
      */
-    public function addAffectedUser(\Twp\Entity\Idea $affectedUsers)
+    public function addAffectedUser(\Twp\Entity\User $affectedUsers)
     {
         $this->affectedUsers[] = $affectedUsers;
     
@@ -330,9 +332,9 @@ class Issue
     /**
      * Remove affectedUsers
      *
-     * @param \Twp\Entity\Idea $affectedUsers
+     * @param \Twp\Entity\User $affectedUsers
      */
-    public function removeAffectedUser(\Twp\Entity\Idea $affectedUsers)
+    public function removeAffectedUser(\Twp\Entity\User $affectedUsers)
     {
         $this->affectedUsers->removeElement($affectedUsers);
     }
@@ -345,5 +347,28 @@ class Issue
     public function getAffectedUsers()
     {
         return $this->affectedUsers;
+    }
+
+    /**
+     * Add statuses
+     *
+     * @param \Twp\Entity\Status $statuses
+     * @return Issue
+     */
+    public function addStatuse(\Twp\Entity\Status $statuses)
+    {
+        $this->statuses[] = $statuses;
+    
+        return $this;
+    }
+
+    /**
+     * Remove statuses
+     *
+     * @param \Twp\Entity\Status $statuses
+     */
+    public function removeStatuse(\Twp\Entity\Status $statuses)
+    {
+        $this->statuses->removeElement($statuses);
     }
 }

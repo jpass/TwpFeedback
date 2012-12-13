@@ -220,4 +220,37 @@ class Comment
     {
         return $this->status;
     }
+
+    /**
+     * Add issue
+     *
+     * @param \Twp\Entity\Issue $issue
+     * @return Comment
+     */
+    public function addIssue(\Twp\Entity\Issue $issue)
+    {
+        $this->issue[] = $issue;
+    
+        return $this;
+    }
+
+    /**
+     * Remove issue
+     *
+     * @param \Twp\Entity\Issue $issue
+     */
+    public function removeIssue(\Twp\Entity\Issue $issue)
+    {
+        $this->issue->removeElement($issue);
+    }
+
+    /**
+     * Get issue
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIssue()
+    {
+        return $this->issue;
+    }
 }

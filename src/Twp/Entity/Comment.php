@@ -227,9 +227,9 @@ class Comment
      * @param \Twp\Entity\Issue $issue
      * @return Comment
      */
-    public function addIssue(\Twp\Entity\Issue $issue)
+    public function setIssue(\Twp\Entity\Issue $issue)
     {
-        $this->issue[] = $issue;
+        $this->issue = new \Doctrine\Common\Collections\ArrayCollection(array($issue));
     
         return $this;
     }
