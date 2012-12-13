@@ -1,18 +1,15 @@
 {% extends twp_idea_layout %}
 
 {% block content %}
-{% include 'TwpIdeaBundle:Idea:_vote.html.twig' with { 'idea': idea } %}
-<article id="idea">
-    <header>{{ idea.title}}</header>
-    <section>{{ idea.content }}</section>
-</article>
+{% include 'TwpIdeaBundle:Idea:_listItem.html.twig' with { 'idea': idea } %}
 <div class="comments">
     <form action="{{ path('idea_show', { 'id': idea.id }) }}" method="post" {{ form_enctype(commentForm) }}>
         {{ form_widget(commentForm) }}
         <input type="Submit" value="Post"/>
     </form>
     {% for comment in idea.comments %}
-        <section>
+        <section class="comment">
+            <header>{{ comment.status ? comment.status : '' }}</header>
             {{ comment.content }}
         </section>
     {% endfor %}

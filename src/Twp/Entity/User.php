@@ -3,13 +3,19 @@
 namespace Twp\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
  */
-class User
+class User implements UserInterface, \Serializable
 {
+    /**
+     * number of votes user can use
+     */
+    const USER_VOTES_AVAILABLE = 10;
+    
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -21,6 +27,37 @@ class User
      * @ORM\Column(type="integer") 
      */
     protected $glueId;
+    
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $name;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    protected $salt;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    protected $password;
+
+    /**
+     * @ORM\Column(type="string", length=60, unique=true)
+     */
+    protected $email;
+
+    /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    protected $isActive;
+    
+    /**
+     * @ORM\Column(type="array")
+     */
+    protected $roles;
+    
     
     /**
      * @ORM\Column(type="datetime")
@@ -65,6 +102,10 @@ class User
         $this->votes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->statuses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+        
+        $this->isActive = true;
+        $this->salt = md5(uniqid(null, true));
+        $this->roles = array('ROLE_USER');
     }
     
     /**
@@ -253,5 +294,169 @@ class User
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return User
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     * @return User
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+    
+        return $this;
+    }
+    
+    public function getSalt() {
+        $this->salt;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     * @return User
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    
+        return $this;
+    }
+    
+    public function getPassword() {
+        return $this->password;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     * @return User
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+    
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean 
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+    
+    
+    /**
+     * Set roles
+     *
+     * @param array $roles
+     * @return User
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+    
+        return $this;
+    }
+    
+    public function getRoles() {
+        return $this->roles;
+    }
+    
+    
+    public function eraseCredentials() {
+        
+    }
+
+    public function getUsername() 
+    {
+        return $this->getEmail();
+    }
+    
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+        ));
+    }
+    
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+        ) = unserialize($serialized);
+    }
+    
+    public function getRemainingVotes()
+    {
+        return self::USER_VOTES_AVAILABLE - count($this->getVotes());
+    }
+    
+    public function getVotesforIdea($idea)
+    {
+        $v = $this->getVotes();
+        $arr = array();
+        foreach($v as $item)
+        {
+            if($item->getIdea() === $idea)
+            {
+                $arr[] = $item;
+            }
+        }
+        return $arr;
     }
 }

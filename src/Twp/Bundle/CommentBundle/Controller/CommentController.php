@@ -24,7 +24,7 @@ class CommentController extends Controller
     {
         $form = $this->container
                 ->get('form.factory')
-                ->create(new CommentType());
+                ->create(new CommentType($this->get('security.context')->isGranted('ROLE_FEEDBACK_ADMIN')));
         
         return $form;
     }
@@ -36,6 +36,6 @@ class CommentController extends Controller
         $em->persist($comment);
         $em->flush();
         
-        return;
+        return $comment;
     }
 }

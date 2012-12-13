@@ -51,22 +51,22 @@ class Idea
     
     /**
      * @ORM\OneToOne(targetEntity="Status")
-     * @ORM\JoinColumn(name="status_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="status_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $currentStatus;
     
     /**
-     * @ORM\OneToMany(targetEntity="Status", mappedBy="idea")
+     * @ORM\OneToMany(targetEntity="Status", mappedBy="idea", cascade={"remove"})
      */
     protected $statuses;
     
     /**
-     * @ORM\ManyToMany(targetEntity="Comment", mappedBy="idea")
+     * @ORM\ManyToMany(targetEntity="Comment", mappedBy="idea", cascade={"remove"})
      */
     protected $comments;
     
     /**
-     * @ORM\OneToMany(targetEntity="Vote", mappedBy="idea")
+     * @ORM\OneToMany(targetEntity="Vote", mappedBy="idea", cascade={"remove"})
      */
     protected $votes;
     
@@ -250,10 +250,12 @@ class Idea
      * @param Twp\Entity\Status $statuses
      * @return Idea
      */
-    public function addStatuse(\Twp\Entity\Status $statuses)
+    public function addStatus(\Twp\Entity\Status $status)
     {
-        $this->statuses[] = $statuses;
+        $this->statuses[] = $status;
     
+        $this->currentStatus = $status;
+        
         return $this;
     }
 
@@ -262,9 +264,9 @@ class Idea
      *
      * @param Twp\Entity\Status $statuses
      */
-    public function removeStatuse(\Twp\Entity\Status $statuses)
+    public function removeStatus(\Twp\Entity\Status $status)
     {
-        $this->statuses->removeElement($statuses);
+        $this->statuses->removeElement($status);
     }
 
     /**

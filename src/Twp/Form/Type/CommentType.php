@@ -9,10 +9,29 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class CommentType extends AbstractType
 {
+    protected $isAdmin;
+    
+    public function __construct($isAdmin = false) {
+        $this->isAdmin = $isAdmin;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('content', null, array('label' => 'Add a comment...'));
+        if($this->isAdmin)
+        {
+            $builder->add('change_status', 'checkbox', array(
+                'mapped' => false,
+                'label' => 'Change status?',
+                'required' => false
+            ));
+            $builder->add('status', 'choice', array(
+                'mapped' => false,
+                'label' => '',
+                'choices' => \Twp\Entity\Status::getChoices(),
+                'required' => false
+            ));
+        }
     }
 
     public function getName()

@@ -4,17 +4,28 @@ namespace Twp\Bundle\IdeaBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Twp\Entity\Idea;
+use Twp\Entity\Vote;
+use \Twp\Entity\Status;
 
 class IdeaController extends Controller
 {
     public function addAction(Idea $idea, $votes)
     {
         $em = $this->getDoctrine()->getManager();
-        // TODO: setUser
+        
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $idea->setUser($user);
+        
+        $status = new Status();
+        $status->setUser($user);
+        $status->setIdea($idea);
+        $em->persist($status);
+        $idea->addStatus($status);
+        
         $em->persist($idea);
         $em->flush();
         
@@ -33,13 +44,36 @@ class IdeaController extends Controller
         
         $commentForm = $this->get('commentController')->formAction();
         
+        // check if its admin form
+        if(isset($commentForm['status']))
+        {
+            $commentForm['status']->setData($idea->getCurrentStatus()->getType());
+        }
+        
         if($this->getRequest()->isMethod('POST'))
         {
             $commentForm->bind($this->getRequest());
             if ($commentForm->isValid()) 
             {
-                $commentForm->getData()->setIdea($idea);
-                $this->get('commentController')->addAction($commentForm->getData());
+                $em = $this->getDoctrine()->getManager();
+                $user = $this->get('security.context')->getToken()->getUser();
+                $comment = $commentForm->getData();
+                $comment->setUser($user);
+                $comment->setIdea($idea);
+                $em->persist($comment);
+                if(isset($commentForm['change_status']) && $commentForm['change_status']->getData())
+                {
+                    $status = new Status($commentForm['status']->getData());
+                    $status->setUser($user);
+                    $status->setIdea($idea);
+                    $status->setComment($comment);
+                    $em->persist($status);
+                    
+                    $idea->addStatus($status);
+                    $em->persist($idea);
+                }
+                $em->flush();
+                
                 return $this->redirect($this->generateUrl('idea_show', array('id' => $id)));
             }
         }
@@ -57,13 +91,16 @@ class IdeaController extends Controller
     }
     
     /**
-     * @Route("/idea/{id}/vote/{votes}", requirements={"id" = "\d+", "votes" = "[1-3]"}, name="idea_vote")
+     * @Route("/idea/{id}/vote/{votes}", requirements={"id" = "\d+", "votes" = "[0-3]"}, name="idea_vote")
      */
     public function voteAction($id, $votes)
-    {
-        if(!$votes)
+    {       
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        if(!$user->getRemainingVotes())
         {
-            throw new \Exception('Trying to add 0 votes');
+            // someone is cheating
+            throw new \Exception('You have no more votes');
         }
         
         $idea = $this->getDoctrine()->getRepository('Twp:Idea')->findOneById($id);
@@ -72,6 +109,28 @@ class IdeaController extends Controller
         {
             throw $this->createNotFoundException('Idea not found');
         }
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        
+        // if user voted for this idea before we ensure we only add new votes or remove old ones
+        $votedCount = $this->getDoctrine()->getRepository('Twp:Vote')->findBy(array('user' => $user->getId(), 'idea' => $id));
+        $votes = $votes - count($votedCount);
+        
+        // remove unwanted votes
+        for($i = 0; $i < ($votes * -1); $i++)
+        {
+            $em->remove($votedCount[$i]);
+        }
+        
+        // or add more
+        for($i = 0; $i < $votes; $i++)
+        {
+            $vote = new Vote();
+            $vote->setUser($user);
+            $vote->setIdea($idea);
+            $em->persist($vote);
+        }
+        $em->flush();        
         
         return $this->redirect($this->generateUrl('idea_show', array('id' => $id)));
     }
