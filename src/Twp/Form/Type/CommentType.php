@@ -17,7 +17,10 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('content', null, array('label' => 'Add a comment...'));
+            ->add('content', null, array(
+                'label' => 'New Comment',
+                'attr' => array('placeholder' => 'Add a comment...')
+                ));
         if($this->isAdmin)
         {
             $builder->add('change_status', 'checkbox', array(

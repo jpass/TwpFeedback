@@ -12,8 +12,14 @@ class IdeaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', null, array('label' => 'Enter your idea...'))
-            ->add('content', null, array('label' => 'Describe your idea...'))
+            ->add('title', null, array(
+                'label' => ' ',
+                'attr' => array('placeholder' => 'Enter your idea...')
+                ))
+            ->add('content', null, array(
+                'label' => ' ',
+                'attr' => array('placeholder' => 'Describe your idea...')
+                ))
             ->add('votes', 'choice', array(
                 'choices' => array(1 => 1, 2 => 2, 3 => 3),
                 'mapped' => false,

@@ -12,8 +12,14 @@ class IssueType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', null, array('label' => 'Enter your issue...'))
-            ->add('content', null, array('label' => 'Describe your issue... '));
+            ->add('title', null, array(
+                'label' => ' ',
+                'attr' => array('placeholder' => 'Enter your issue...')
+                ))
+            ->add('content', null, array(
+                'label' => ' ',
+                'attr' => array('placeholder' => 'Describe your issue...')
+                ));
     }
 
     public function getName()
