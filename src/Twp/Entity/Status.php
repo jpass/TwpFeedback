@@ -240,4 +240,9 @@ class Status
     {
         return $this->issue;
     }
+
+    public function getCssClass()
+    {
+        return  str_replace (" ", "=", $this->__toString());
+    }
 }
