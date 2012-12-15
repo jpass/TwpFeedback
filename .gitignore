@@ -7,3 +7,6 @@ vendor
 composer.phar
 app/config/parameters.yml
 nbproject
+.sass-cache
+web/css
+Guardfile
