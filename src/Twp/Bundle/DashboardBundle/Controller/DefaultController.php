@@ -94,4 +94,30 @@ class DefaultController extends Controller
         
         return $this->redirect($this->generateUrl('homepage'));
     }
+
+    /**
+     * @Route("/rss", name="rss")
+     * @Template()
+     */
+    public function feedAction()
+    {
+        $feed = array();
+
+        $xml = new \SimpleXMLElement('http://blog.travelworldpassport.com/?category_name=blog,dev-blog,features&feed=rss2', null, true);
+
+        foreach($xml->channel->item as $item)
+        {
+            $v = array();
+            $v['title'] = $item->title.'';
+            $v['link'] = $item->link.'';
+            $v['description'] = $item->description.'';
+            if(!isset($feed[$item->category.'']))
+            {
+                $feed[$item->category.''] = array();
+            }
+            $feed[$item->category.''][] = $v;
+        }
+
+        return array('feed' => $feed);
+    }
 }
