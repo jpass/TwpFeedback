@@ -1,0 +1,13 @@
+<div>
+    {% for cat, items in feed %}
+    <section>
+        <h4>{{ cat }}</h4>
+        <div class="feed-items">
+            {% for item in items %}
+                <h5><a href="{{ item.link }}">{{ item.title }}</a></h5>
+                <p>{{ item.description | raw }}</p>
+            {% endfor %}
+        </div> 
+    </section>
+    {% endfor %}
+<div>
