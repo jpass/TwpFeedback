@@ -5,6 +5,7 @@ namespace Twp\Bundle\DashboardBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Response;
 
 use Twp\Form\Type\IdeaType;
 use Twp\Form\Type\IssueType;
@@ -103,7 +104,14 @@ class DefaultController extends Controller
     {
         $feed = array();
 
-        $xml = new \SimpleXMLElement('http://blog.travelworldpassport.com/?category_name=blog,dev-blog,features&feed=rss2', null, true);
+        $url = $this->container->getParameter('twp_dashboard.rss_feed');
+
+        if(!$url)
+        {
+            return new Response();
+        }
+
+        $xml = new \SimpleXMLElement($url, null, true);
 
         foreach($xml->channel->item as $item)
         {
