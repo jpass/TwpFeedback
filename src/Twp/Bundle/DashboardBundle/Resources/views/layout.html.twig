@@ -1,10 +1,39 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-    <header></header>
-    <div id="content">
-        {% block content %}
-        {% endblock %}
+    <header id="header"></header>
+    <div id="content" class="container">
+        <div class="row-fluid">
+            <div class="span7">
+                {% block breadcrumbs %}
+                    {% include 'TwpDashboardBundle:Default:_breadcrumbs.html.twig' %}
+                {% endblock %}
+                {% block content %}
+                {% endblock %}
+            </div>
+            <div id="feed" class="span5 well">
+                <h2>TWP Blog articles</h2>
+                <div id="feed-content">
+                    <div style="text-align: center;">Loading...</div>
+                </div>
+            </div>
+        </div>
     </div>
-    <footer></footer>
+    <footer id="footer  "></footer>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript">
+$(window).load(function(){
+    $('#feed-content').load('{{ path('rss') }}');
+});
+</script>
 {% endblock %}

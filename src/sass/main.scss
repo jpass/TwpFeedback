@@ -1,0 +1,127 @@
+@import "./lib/bootstrap/lib/bootstrap";
+@import "compass/css3/inline-block";
+@import "compass/css3";
+@import "blueprint/buttons";
+ #header {
+    background: #E8E7E5;
+    height: 100px;
+    border-bottom: 1px solid $grayLight;
+    margin-bottom: 30px;
+}
+
+ #footer {
+    height: 150px;
+    margin-top: 30px;
+}
+
+input[type="text"], textarea {
+    width: 500px;
+} 
+
+textarea {
+    min-height: 100px;
+} 
+
+label.inline-block {
+	@include inline-block;
+	margin:0 10px;
+}
+
+h3.header {
+    margin: 20px 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid $grayLighter;
+}
+
+.comments {
+    margin-top: 10px;
+}
+.comments textarea {
+    width: 400px;
+}
+ #new_idea_votes {
+	padding: 10px;
+	position:relative;
+}
+ #new_idea_votes input {
+	position: absolute;
+	z-index: -1;
+}
+ #new_idea_votes input+label {
+	@include buttonBackground($btnBackground, $btnBackground, $grayDark, 0 1px 1px rgba(255,255,255,.75));
+}
+ #new_idea_votes input:checked+label {
+	@include buttonBackground($btnInverseBackground, $btnInverseBackground);
+	@include box-shadow(inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05));
+}
+ .list-left {
+    width: 110px;
+    @include inline-block;
+}
+
+.list-right {
+    @include inline-block;
+}
+
+.vote-btn, .watch {
+    width: 70px;
+}
+
+.bvote-btn.active {
+    @include box-shadow(inset 0 2px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.05));
+}
+
+.vote-btn .caret {
+    float: right;
+}
+ .votes-count {
+    width: 93px;
+    border: 1px solid darken($wellBackground, 7%);
+    @include border-radius;
+    @include box-shadow(inset 0 1px 1px rgba(0,0,0,.05));
+	text-align: center;
+	background: $wellBackground;
+}
+
+.vote > div {
+    margin-bottom: 1px;
+}
+ .votes-count h4 {
+	display: block;
+	margin-bottom:0;
+}
+ .votes-count strong {
+	margin-bottom: 5px;
+	display: block;
+}
+ @each $item in label, badge {
+    .#{$item}-new           { background-color: $grayLight; }
+    .#{$item}-under-review  { background-color: $orange; }
+    .#{$item}-planned       { background-color: $infoText; }
+    .#{$item}-started       { background-color: $blue; }
+    .#{$item}-completed     { background-color: $successText; }
+    .#{$item}-declined      { background-color: $errorText; }
+    .#{$item}-duplicate     { background-color: $grayDark; }
+}
+
+#feed {
+    //background: $grayLighter;
+    //border: 1px solid $grayLight;
+    //@include border-radius;
+    min-height: 100px;
+    padding: 10px;
+}
+
+#feed h2 {
+    padding-bottom: 9px;
+    margin: 20px 0 30px;
+    border-bottom: 1px dotted lighten($grayLight, 10%);
+}
+
+#feed p {
+    font-size: $fontSizeSmall;
+}
+
+.feed-items {
+    padding-left: 5px;
+}
