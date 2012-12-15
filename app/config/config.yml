@@ -21,9 +21,6 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-    globals:
-        twp_idea_layout: 'TwpDashboardBundle::layout.html.twig'
-        twp_issue_layout: 'TwpDashboardBundle::layout.html.twig'
 
 # Assetic Configuration
 assetic:
@@ -62,7 +59,7 @@ doctrine:
                         prefix: Twp\Entity
                         alias: Twp
                         is_bundle: false
-                        
+
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -73,3 +70,12 @@ swiftmailer:
     spool:
         type: file
         path: "%kernel.root_dir%/spool"
+
+twig:
+    globals:
+        twp_idea_layout: 'TwpDashboardBundle::layout.html.twig'
+        twp_issue_layout: 'TwpDashboardBundle::layout.html.twig'
+        twp_name: 'TWP'
+
+twp_dashboard:
+    rss_feed: "http://blog.travelworldpassport.com/?category_name=blog,dev-blog,features&feed=rss2"

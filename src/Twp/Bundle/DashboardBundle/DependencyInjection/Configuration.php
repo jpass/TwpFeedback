@@ -20,9 +20,15 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('twp_dashboard');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode
+            ->children()
+                ->scalarNode('rss_feed')
+                    ->defaultValue(false)
+                    ->info('rss feed url to parse and load in right bar')
+                    ->example('http://emaple.org/?feed=rss')
+                    ->end()
+            ->end();
+
 
         return $treeBuilder;
     }
