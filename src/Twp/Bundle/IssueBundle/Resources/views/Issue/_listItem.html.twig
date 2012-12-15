@@ -1,9 +1,17 @@
 <article class="issue">
-    {% if is_granted('ROLE_USER') %}
-        <a class="watch {{ issue.affectedUsers.contains(app.user) ? 'active' : ''  }}" href="{{ path(issue.affectedUsers.contains(app.user) ? 'issue_unmark' : 'issue_mark', { 'id': issue.id })  }}">Me too!</a>
-    {% endif %}
-    <header><a href="{{ path('issue_show', { 'id': issue.id }) }}">{{ issue.title }}</a></header>
-    <section>{{ issue.content }}</section>
-    <footer>{{ issue.currentStatus }}</footer>
+    <div class="list-left">
+        {% if is_granted('ROLE_USER') %}
+            <a class="btn watch {{ issue.affectedUsers.contains(app.user) ? 'active' : ''  }}" href="{{ path(issue.affectedUsers.contains(app.user) ? 'issue_unmark' : 'issue_mark', { 'id': issue.id })  }}">Me too!</a>
+        {% endif %}
+    </div>
+    <div class="list-right">
+        <h4><a href="{{ path('issue_show', { 'id': issue.id }) }}">{{ issue.title }}</a></h4>
+        <p>{{ issue.content | nl2br }}</p>
+        <footer>
+            <span class="label label-{{ issue.currentStatus }}">{{ issue.currentStatus }}</span>
+            by <span class="text-info">{{ issue.user }}</span>
+            <small>{{ issue.createdAt.format("F d, Y g:i a") }}</small>
+        </footer>
+    </div>
 </article>
 

@@ -1,10 +1,18 @@
 <article class="idea">
-    {% include 'TwpIdeaBundle:Idea:_vote.html.twig' with { 'idea': idea } %}
-    {% if is_granted('ROLE_USER') %}
-        <a class="watch {{ app.user.isWatching(idea.id) ? 'active' : ''  }}" href="{{ path(app.user.isWatching(idea.id) ? 'idea_unwatch' : 'idea_watch', { 'id': idea.id })  }}">{{ app.user.isWatching(idea.id) ? 'Unw' : 'W'  }}atch</a>
-    {% endif %}
-    <header><a href="{{ path('idea_show', { 'id': idea.id }) }}">{{ idea.title }}</a></header>
-    <section>{{ idea.content }}</section>
-    <footer>{{ idea.currentStatus }}</footer>
+	<div class="list-left">
+    	{% include 'TwpIdeaBundle:Idea:_vote.html.twig' with { 'idea': idea } %}
+    	{% if is_granted('ROLE_USER') %}
+	        <a class="watch btn {{ app.user.isWatching(idea.id) ? 'active' : ''  }}" href="{{ path(app.user.isWatching(idea.id) ? 'idea_unwatch' : 'idea_watch', { 'id': idea.id })  }}">{{ app.user.isWatching(idea.id) ? 'Unw' : 'W'  }}atch</a>
+	    {% endif %}
+    </div>
+    <div class="list-right">
+	    <h4><a href="{{ path('idea_show', { 'id': idea.id }) }}">{{ idea.title }}</a></h4>
+	    <p>{{ idea.content | nl2br }}</p>
+	    <footer>
+	    	<span class="label label-{{ idea.currentStatus }}">{{ idea.currentStatus }}</span>
+            by <span class="text-info">{{ idea.user }}</span>
+            <small>{{ idea.createdAt.format("F d, Y g:i a") }}</small>
+	    </footer>
+	</div>
 </article>
 
