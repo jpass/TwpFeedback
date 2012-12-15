@@ -585,4 +585,9 @@ class User implements UserInterface, \Serializable
     {
         return $this->affectedByIssues;
     }
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }
