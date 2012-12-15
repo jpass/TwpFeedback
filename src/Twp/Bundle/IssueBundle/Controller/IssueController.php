@@ -81,7 +81,7 @@ class IssueController extends Controller
     }
     
     /**
-     * @Route("/issue")
+     * @Route("/issue", name="issue_list")
      * @Template()
      */
     public function listAction()
