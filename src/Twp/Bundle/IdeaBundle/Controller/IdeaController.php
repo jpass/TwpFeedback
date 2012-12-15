@@ -88,7 +88,7 @@ class IdeaController extends Controller
     }
     
     /**
-     * @Route("/idea")
+     * @Route("/idea", name="idea_list")
      * @Template()
      */
     public function listAction()
