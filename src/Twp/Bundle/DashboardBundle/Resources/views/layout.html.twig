@@ -5,9 +5,15 @@
     <div id="content" class="container">
         <div class="row-fluid">
             <div class="span7">
-                {% block breadcrumbs %}
-                    {% include 'TwpDashboardBundle:Default:_breadcrumbs.html.twig' %}
-                {% endblock %}
+                <ul class="breadcrumb">
+                    <li><a id="home_link" href="{{ path('homepage') }}">Home</a><span class="divider">/</span></li>
+                    {% block idea_breadcrums %}
+                        <li><a class="" href="{{ path('idea_list') }}">Ideas</a><span class="divider">/</span></li>
+                    {% endblock %}
+                    {% block issue_breadcrums %}
+                        <li><a class="" href="{{ path('issue_list') }}">Issues</a><span class="divider">/</span></li>
+                    {% endblock %}
+                </ul>
                 {% block content %}
                 {% endblock %}
             </div>
@@ -35,5 +41,9 @@
 $(window).load(function(){
     $('#feed-content').load('{{ path('rss') }}');
 });
+if($('.breadcrumb .active').length == 0)
+{
+    $('.breadcrumb #home_link').addClass('active');
+}
 </script>
 {% endblock %}
