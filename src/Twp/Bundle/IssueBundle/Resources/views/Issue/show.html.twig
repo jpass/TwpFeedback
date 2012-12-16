@@ -9,8 +9,12 @@
     </form>
     {% for comment in issue.comments %}
         <section class="comment">
-            <header>{{ comment.status ? comment.status : '' }}</header>
-            {{ comment.content }}
+            <header>
+                <span class="label label-{{ comment.status }}">{{ comment.status ? comment.status : '' }}</span>
+                <span class="text-info">{{ comment.user }}</span>
+                <small>{{ comment.createdAt.format('F d, Y g:i a') }}</small>
+            </header>
+            <p>{{ comment.content | nl2br }}</p>
         </section>
     {% endfor %}
 </div>
