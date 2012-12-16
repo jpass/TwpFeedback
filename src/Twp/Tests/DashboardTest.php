@@ -16,18 +16,18 @@ class MyControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/');
 
-        $this->assertTrue($crawler->filter('#new-idea:contains("Add Idea")')->count() > 0);
-        $this->assertTrue($crawler->filter('#new-issue:contains("Add Issue")')->count() > 0);
+        $this->assertTrue($crawler->filter('#dashboard-tabs a:contains("Add Idea")')->count() > 0);
+        $this->assertTrue($crawler->filter('#dashboard-tabs a:contains("Add Issue")')->count() > 0);
 
-        $this->assertTrue($crawler->filter('h2:contains("I suggest you...")')->count() > 0);
-        $this->assertTrue($crawler->filter('html:contains("Enter your idea...")')->count() > 0);
-        $this->assertTrue($crawler->filter('html:contains("Describe your idea...")')->count() > 0);
+        $this->assertTrue($crawler->filter('legend:contains("I suggest you...")')->count() > 0);
 
         // check form
-        $this->assertTrue($crawler->filter('input#idea_title')->count() > 0);
-        $this->assertTrue($crawler->filter('textarea#idea_content')->count() > 0);
-        $this->assertTrue($crawler->filter('#idea_votes')->count() > 0);
-        $this->assertTrue($crawler->filter('#idea__token')->count() > 0);
+        $this->assertTrue($crawler->filter('input#new_idea_title')->count() > 0);
+        $this->assertTrue($crawler->filter('textarea#new_idea_content')->count() > 0);
+        $this->assertTrue($crawler->filter('input#new_idea_title[placeholder="Enter your idea..."]')->count() > 0);
+        $this->assertTrue($crawler->filter('textarea#new_idea_content[placeholder="Describe your idea..."]')->count() > 0);
+        $this->assertTrue($crawler->filter('#new_idea_votes')->count() > 0);
+        $this->assertTrue($crawler->filter('#new_idea__token')->count() > 0);
         $this->assertTrue($crawler->filter('input[value="Add"]')->count() > 0);
     }
 
@@ -41,14 +41,14 @@ class MyControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/');
 
-        $this->assertTrue($crawler->filter('.idea header a:contains("IdeaTest1 Titile")')->count() > 0);
-        $this->assertTrue($crawler->filter('.idea section:contains("IdeaTest1 Content")')->count() > 0);
-        $this->assertTrue($crawler->filter('.idea footer:contains("new")')->count() > 0);
+        $this->assertTrue($crawler->filter('.idea h4 a:contains("IdeaTest1 Titile")')->count() > 0);
+        $this->assertTrue($crawler->filter('.idea p:contains("IdeaTest1 Content")')->count() > 0);
+        $this->assertTrue($crawler->filter('.idea footer span.label:contains("new")')->count() > 0);
 
-        $this->assertTrue($crawler->filter('.votes-count strong:contains("0")')->count() > 0);
-        $this->assertTrue($crawler->filter('.votes-count span:contains("Vote")')->count() > 0);
-        $this->assertTrue($crawler->filter('.idea .vote > span:contains("Vote")')->count() > 0);
-        $this->assertTrue($crawler->filter('.idea .vote > a:contains("Sign in to vote")')->count() > 0);
+        $this->assertTrue($crawler->filter('.votes-count h4:contains("0")')->count() > 0);
+        $this->assertTrue($crawler->filter('.votes-count:contains("Vote")')->count() > 0);
+        //$this->assertTrue($crawler->filter('.idea .vote > span:contains("Vote")')->count() > 0);
+        //$this->assertTrue($crawler->filter('.idea .vote > a:contains("Sign in to vote")')->count() > 0);
 
     }
 
