@@ -1,0 +1,60 @@
+<link rel="stylesheet" type="text/css" href="/css/main.css">
+
+<div>
+    <div class="page-header">
+        <h1>{{ twp_name }} Community</h1>
+    </div>
+    <section>
+        <div class="">
+            <ul id="dashboard-tabs" class="nav nav-tabs">
+                <li class="active"><a href="#new-idea-form" data-toggle="tab">Add Idea</a></li>
+                <li><a href="#new-issue-form" data-toggle="tab">Add Issue</a></li>
+            </ul>
+            <div class="tab-content">
+                <div id="new-idea-form" class="tab-pane active">
+                    <form action="{{ path('homepage') }}" method="post" {{ form_enctype(ideaForm) }}>
+                        <fieldset>
+                        <legend>I suggest you...</legend>
+                            <div>
+                                {{ form_row(ideaForm.title) }}
+                                {{ form_row(ideaForm.content) }}
+                                <div id="new_idea_votes">
+                                    {{ form_errors(ideaForm.votes) }}
+                                    {{ form_widget(ideaForm.votes.0) }}
+                                    {{ form_label(ideaForm.votes.0, null, { 'label_attr': { 'class': 'btn' } }) }}
+                                    {{ form_widget(ideaForm.votes.1) }}
+                                    {{ form_label(ideaForm.votes.1, null, { 'label_attr': { 'class': 'btn' } }) }}
+                                    {{ form_widget(ideaForm.votes.2) }}
+                                    {{ form_label(ideaForm.votes.2, null, { 'label_attr': { 'class': 'btn' } }) }}
+                                    {{ form_label(ideaForm.votes, null, { 'label_attr': { 'class': 'inline-block' } }) }}
+                                </div>
+                                {{ form_rest(ideaForm) }}
+                                <input type="submit" value="Add" class="btn" />
+                            </div>
+                        </fieldset>
+                    </form>
+                    <section>
+                        <h3 class="media-heading header">New ideas</h2>
+                        {% include 'TwpIdeaBundle:Idea:_list.html.twig' with { 'ideas': topIdeas } %}
+                    </section>
+                </div>
+                <div id="new-issue-form" class="tab-pane">
+                    <form action="{{ path('homepage') }}" method="post" {{ form_enctype(issueForm) }}>
+                        <fieldset>
+                            <legend>You need to fix....</legend>
+                            {{ form_widget(issueForm) }}
+                            <input type="Submit" value="Add" class="btn"/>
+                        </fieldset>
+                    </form>
+                    <section>
+                        <h3 class="media-heading header">New Issues</h2>
+                        {% include 'TwpIssueBundle:Issue:_list.html.twig' with { 'issues': topIssues } %}
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>

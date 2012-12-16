@@ -35,15 +35,22 @@ class DefaultController extends Controller
                 return $this->forward('TwpIssueBundle:Issue:add', array('issue' => $issueForm->getData()));
             }
         }
-        
-        return array(
+
+        $responseArray = array(
             'ideaForm' => $ideaForm->createView(),
             'issueForm' => $issueForm->createView(),
             'topIdeas' => $this->getDoctrine()->getRepository('Twp:Idea')->getTop(),
             'topIssues' => $this->getDoctrine()->getRepository('Twp:Issue')->getTop()
-                );
+        );
+
+        if($this->getRequest()->isXmlHttpRequest())
+        {
+            return $this->render('TwpDashboardBundle:Default:index.ajax.html.twig', $responseArray);
+        }
+
+        return $responseArray;
     }
-    
+
     /**
      * @Route("/login", name="login")
      * @Template()
