@@ -1,5 +1,9 @@
 {% extends twp_idea_layout %}
 
+{% block idea_breadcrums %}
+    <li><a class="active" href="{{ path('idea_list') }}">Ideas</a><span class="divider">/</span></li>
+{% endblock %}
+
 {% block content %}
     {% include 'TwpIdeaBundle:Idea:_list.html.twig' with { 'ideas': ideas } %}
 {% endblock  %}

@@ -1,5 +1,13 @@
 {% extends twp_idea_layout %}
 
+{% block idea_breadcrums %}
+    <li>
+        <a href="{{ path('idea_list') }}">Ideas</a>
+        <a class="active" href="{{ path('idea_show', { 'id': idea.id }) }}"><span class="lead">&rarr;</span> #{{ idea.id }}</a>
+        <span class="divider">/</span>
+    </li>
+{% endblock %}
+
 {% block content %}
 {% include 'TwpIdeaBundle:Idea:_listItem.html.twig' with { 'idea': idea } %}
 <div class="comments offset2 span10">
