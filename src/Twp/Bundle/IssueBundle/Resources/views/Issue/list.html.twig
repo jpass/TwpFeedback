@@ -1,4 +1,8 @@
-{% extends twp_idea_layout %}
+{% extends twp_issue_layout %}
+
+{% block issue_breadcrums %}
+    <li><a class="active" href="{{ path('issue_list') }}">Issues</a><span class="divider">/</span></li>
+{% endblock %}
 
 {% block content %}
     {% include 'TwpIssueBundle:Issue:_list.html.twig' with { 'issues': issues } %}

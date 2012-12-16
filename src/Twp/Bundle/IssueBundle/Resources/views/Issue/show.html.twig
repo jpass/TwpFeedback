@@ -1,5 +1,13 @@
 {% extends twp_issue_layout %}
 
+{% block issue_breadcrums %}
+    <li>
+        <a href="{{ path('issue_list') }}">Issues</a>
+        <a class="active" href="{{ path('issue_show', { 'id': issue.id }) }}"><span class="lead">&rarr;</span> #{{ issue.id }}</a>
+        <span class="divider">/</span>
+    </li>
+{% endblock %}
+
 {% block content %}
 {% include 'TwpIssueBundle:Issue:_listItem.html.twig' with { 'issue': issue } %}
 <div class="comments">
