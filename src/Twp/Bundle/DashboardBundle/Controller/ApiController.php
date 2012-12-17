@@ -7,20 +7,23 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 
-use Twp\Form\Type\IdeaType;
-use Twp\Form\Type\IssueType;
+use Twp\Entity\User;
 use Symfony\Component\Security\Core\SecurityContext;
 
 use \Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
+/**
+ * @Route("/api")
+ */
+
 class ApiController extends Controller
 {
     /**
-     * @Route("/api/login/{id}")
+     * @Route("/login/{id}", name="api_login")
      */
     public function loginUserAction($id)
     {
-        $user = $this->getDoctrine()->getRepository('Twp:User')->findOneById($id);
+        $user = $this->getDoctrine()->getRepository('Twp:User')->findOneByGlueId($id);
         if(!$user)
         {
             throw $this->createNotFoundException('User not found');
@@ -33,7 +36,7 @@ class ApiController extends Controller
     }
 
     /**
-     * @Route("/api/logout")
+     * @Route("/logout")
      */
     public function logoutUserAction()
     {
@@ -42,4 +45,35 @@ class ApiController extends Controller
 
         return $this->redirect($this->generateUrl('homepage'));
     }
+
+    /**
+     * @Route("/add-user")
+     */
+    public function addUserAction()
+    {
+        $request = $this->getRequest();
+        $userInfo = $request->get('user');
+
+        $user = $this->getDoctrine()->getRepository('Twp:User')->findOneByGlueId($userInfo['id']);
+
+        if(!$user)
+        {
+            $user = new User();
+            $user->setGlueId($userInfo['id']);
+        }
+
+        //echo 'aaaaaaaaaaaa'.$userInfo['name'].'aaaaaaaa';
+        $user->setName($userInfo['name']);
+        $user->setSalt($userInfo['salt']);
+        $user->setPassword($userInfo['passpord']);
+        $user->setEmail($userInfo['email']);
+        $user->setRoles($userInfo['roles']);
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->persist($user);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('api_login', array('id' => $user->getGlueId())));
+    }
+
 }
