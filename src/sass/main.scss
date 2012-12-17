@@ -16,11 +16,11 @@
 
 input[type="text"], textarea {
     width: 500px;
-} 
+}
 
 textarea {
     min-height: 100px;
-} 
+}
 
 label.inline-block {
 	@include inline-block;
@@ -56,11 +56,12 @@ h3.header {
 }
  .list-left {
     width: 110px;
-    @include inline-block;
+    @include float-left;
 }
 
 .list-right {
-    @include inline-block;
+    @include float-left;
+    width: 425px;
 }
 
 .vote-btn, .watch {
