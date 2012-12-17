@@ -15,19 +15,19 @@ class User implements UserInterface, \Serializable
      * number of votes user can use
      */
     const USER_VOTES_AVAILABLE = 10;
-    
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
-     * @ORM\Column(type="integer") 
+     * @ORM\Column(type="integer", unique=true)
      */
     protected $glueId;
-    
+
     /**
      * @ORM\Column(type="string", nullable=true)
      */
@@ -52,55 +52,55 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(name="is_active", type="boolean")
      */
     protected $isActive;
-    
+
     /**
      * @ORM\Column(type="array")
      */
     protected $roles;
-    
-    
+
+
     /**
      * @ORM\Column(type="datetime")
      */
     protected $createdAt;
-    
+
     // Relations
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Idea", mappedBy="user")
      */
     protected $ideas;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Vote", mappedBy="user")
      */
     protected $votes;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Status", mappedBy="user")
      */
     protected $statuses;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="user")
      */
     protected $comments;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Watch", mappedBy="user")
      */
     protected $watching;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Issue", mappedBy="user")
      */
     protected $issues;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="Issue", mappedBy="affectedUsers")
      */
     protected $affectedByIssues;
-    
+
     /**
      * @ORM\PrePersist
      */
@@ -118,16 +118,16 @@ class User implements UserInterface, \Serializable
         $this->statuses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->watching = new \Doctrine\Common\Collections\ArrayCollection();
-        
+
         $this->isActive = true;
         $this->salt = md5(uniqid(null, true));
         $this->roles = array('ROLE_USER');
     }
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -143,14 +143,14 @@ class User implements UserInterface, \Serializable
     public function setGlueId($glueId)
     {
         $this->glueId = $glueId;
-    
+
         return $this;
     }
 
     /**
      * Get glueId
      *
-     * @return integer 
+     * @return integer
      */
     public function getGlueId()
     {
@@ -166,14 +166,14 @@ class User implements UserInterface, \Serializable
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -189,7 +189,7 @@ class User implements UserInterface, \Serializable
     public function addIdea(\Twp\Entity\Idea $ideas)
     {
         $this->ideas[] = $ideas;
-    
+
         return $this;
     }
 
@@ -206,7 +206,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get ideas
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getIdeas()
     {
@@ -222,7 +222,7 @@ class User implements UserInterface, \Serializable
     public function addVote(\Twp\Entity\Vote $votes)
     {
         $this->votes[] = $votes;
-    
+
         return $this;
     }
 
@@ -239,7 +239,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get votes
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getVotes()
     {
@@ -255,7 +255,7 @@ class User implements UserInterface, \Serializable
     public function addStatuse(\Twp\Entity\Status $statuses)
     {
         $this->statuses[] = $statuses;
-    
+
         return $this;
     }
 
@@ -272,7 +272,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get statuses
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getStatuses()
     {
@@ -288,7 +288,7 @@ class User implements UserInterface, \Serializable
     public function addComment(\Twp\Entity\Comment $comments)
     {
         $this->comments[] = $comments;
-    
+
         return $this;
     }
 
@@ -305,7 +305,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get comments
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getComments()
     {
@@ -321,14 +321,14 @@ class User implements UserInterface, \Serializable
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -344,10 +344,10 @@ class User implements UserInterface, \Serializable
     public function setSalt($salt)
     {
         $this->salt = $salt;
-    
+
         return $this;
     }
-    
+
     public function getSalt() {
         $this->salt;
     }
@@ -361,10 +361,10 @@ class User implements UserInterface, \Serializable
     public function setPassword($password)
     {
         $this->password = $password;
-    
+
         return $this;
     }
-    
+
     public function getPassword() {
         return $this->password;
     }
@@ -378,14 +378,14 @@ class User implements UserInterface, \Serializable
     public function setEmail($email)
     {
         $this->email = $email;
-    
+
         return $this;
     }
 
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -401,21 +401,21 @@ class User implements UserInterface, \Serializable
     public function setIsActive($isActive)
     {
         $this->isActive = $isActive;
-    
+
         return $this;
     }
 
     /**
      * Get isActive
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsActive()
     {
         return $this->isActive;
     }
-    
-    
+
+
     /**
      * Set roles
      *
@@ -425,43 +425,43 @@ class User implements UserInterface, \Serializable
     public function setRoles($roles)
     {
         $this->roles = $roles;
-    
+
         return $this;
     }
-    
+
     public function getRoles() {
         return $this->roles;
     }
-    
-    
+
+
     public function eraseCredentials() {
-        
+
     }
 
-    public function getUsername() 
+    public function getUsername()
     {
         return $this->getEmail();
     }
-    
+
     public function serialize()
     {
         return serialize(array(
             $this->id,
         ));
     }
-    
+
     public function unserialize($serialized)
     {
         list (
             $this->id,
         ) = unserialize($serialized);
     }
-    
+
     public function getRemainingVotes()
     {
         return self::USER_VOTES_AVAILABLE - count($this->getVotes());
     }
-    
+
     public function getVotesforIdea($idea)
     {
         $v = $this->getVotes();
@@ -475,7 +475,7 @@ class User implements UserInterface, \Serializable
         }
         return $arr;
     }
-    
+
     public function isWatching($idea_id)
     {
         // TODO: find better way to check, this is ugly
@@ -496,7 +496,7 @@ class User implements UserInterface, \Serializable
     public function addWatching(\Twp\Entity\Watch $watching)
     {
         $this->watching[] = $watching;
-    
+
         return $this;
     }
 
@@ -513,7 +513,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get watching
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getWatching()
     {
@@ -529,7 +529,7 @@ class User implements UserInterface, \Serializable
     public function addIssue(\Twp\Entity\Issue $issues)
     {
         $this->issues[] = $issues;
-    
+
         return $this;
     }
 
@@ -546,7 +546,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get issues
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getIssues()
     {
@@ -562,7 +562,7 @@ class User implements UserInterface, \Serializable
     public function addAffectedByIssue(\Twp\Entity\Issue $affectedByIssues)
     {
         $this->affectedByIssues[] = $affectedByIssues;
-    
+
         return $this;
     }
 
@@ -579,7 +579,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get affectedByIssues
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getAffectedByIssues()
     {
