@@ -10,7 +10,7 @@
 
 {% block content %}
 {% include 'TwpIssueBundle:Issue:_listItem.html.twig' with { 'issue': issue } %}
-<div class="comments">
+<div class="comments  offset2 span10">
     <form action="{{ path('issue_show', { 'id': issue.id }) }}" method="post" {{ form_enctype(commentForm) }}>
         {{ form_widget(commentForm) }}
         <input type="Submit" value="Post"/>
