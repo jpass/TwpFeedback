@@ -40,7 +40,7 @@ class LoadUserData extends AbstractFixture implements FixtureInterface, Containe
         $this->addReference('user', $user);
         
         $user = new User();
-        $user->setGlueId(1);
+        $user->setGlueId(2);
         $user->setIsActive(true);
         $user->setName('Johnny Mnemonic');
         $user->setEmail('admin');

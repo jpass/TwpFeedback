@@ -36,7 +36,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $manager->persist($user);
         
         $user = new User();
-        $user->setGlueId(1);
+        $user->setGlueId(2);
         $user->setIsActive(true);
         $user->setName('Johnny Mnemonic');
         $user->setEmail('admin');
