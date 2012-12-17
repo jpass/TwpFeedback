@@ -7,7 +7,7 @@ More info soon!
 
 [![Build Status](https://travis-ci.org/jpass/TwpFeedback.png?branch=master)](https://travis-ci.org/jpass/TwpFeedback)
 
-Project configuration
+Development - Project configuration
 ---------------------
 
 1) create app/config/parameters.yml
@@ -26,6 +26,15 @@ Project configuration
     
     php ./app/console doctrine:schema:update --force
 
-6) (optional) load fixtures to users test/test and admin/test
+7) install bootstrap
+    
+    git submodule init
+    git submodule update
+    
+8) generate css from sass
+
+    compass compile
+
+9) (optional) load fixtures to users test/test and admin/test
     
     php ./app/console doctrine:fixtures:load --fixtures="src/Twp/Entity"
