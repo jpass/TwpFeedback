@@ -2,7 +2,7 @@
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
-class MyControllerTest extends WebTestCase
+class DashboardTest extends WebTestCase
 {
 
     public function setUp()
