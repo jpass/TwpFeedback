@@ -32,7 +32,7 @@ label.inline-block {
 h3.header {
     margin: 20px 0;
     padding-bottom: 5px;
-    border-bottom: 1px solid $grayLighter;
+    border-bottom: 1px dotted darken($grayLight, 5%);
 }
 
 .comments {
