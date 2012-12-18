@@ -7,9 +7,7 @@
         {% set votedHere = 0 %}
         {% if is_granted('ROLE_USER') %}
             {% set votedHere = app.user.getVotesForIdea(idea) | length %}
-        {% endif %}
-        <a class="vote-btn btn dropdown-toggle {{ votedHere ? 'active' : '' }}"  data-toggle="dropdown" href="#">Vote <span class="caret"></span></a>
-        {% if is_granted('ROLE_USER') %}
+            <a class="vote-btn btn dropdown-toggle {{ votedHere ? 'active' : '' }}"  data-toggle="dropdown" href="#">Vote <span class="caret"></span></a>
             {% set remainingVotes = app.user.remainingVotes + votedHere %}
             <ul class="dropdown-menu">
             {% if remainingVotes %}
@@ -24,11 +22,9 @@
                         <li><a href="{{ path('idea_vote', { 'id': idea.id, 'votes': 0 }) }}">Remove votes</a></li>
                     {% endif %}
             {% else %}
-                <li>You have no votes left. Please wait until your voted ideas are closed to gain your votes back.</li>
+                <li><a href="">You have no votes left.</a></li>
             {% endif %}
             </ul>
-        {% else %}
-            <a href="{{ path('login') }}">Sign in to vote</a>
         {% endif %}
     </div>
 </div>
