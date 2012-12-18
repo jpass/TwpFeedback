@@ -5,18 +5,31 @@
     <div>{{ error.message }}</div>
 {% endif %}
 
-<form action="{{ path('login_check') }}" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+<form action="{{ path('login_check') }}" method="post" class="form-horizontal">
+    <fieldset>
+        <div class="control-group">
+            <label class="control-label" for="username">Email</label>
+            <div class="controls">
+                <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="Email" />
+            </div>
+        </div>
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="_password" required="required" />
+        <div class="control-group">
+            <label class="control-label" for="password">Password</label>
+            <div class="controls">
+                <input type="password" id="password" name="_password" required="required" placeholder="Password" />
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn">Login</button>
+            </div>
+        </div>
 
-    {#
-        If you want to control the URL the user is redirected to on success (more details below)
-        <input type="hidden" name="_target_path" value="/account" />
-    #}
-
-    <button type="submit">login</button>
+        {#
+            If you want to control the URL the user is redirected to on success (more details below)
+            <input type="hidden" name="_target_path" value="/account" />
+        #}
+    </fieldset>
 </form>
 {% endblock %}
