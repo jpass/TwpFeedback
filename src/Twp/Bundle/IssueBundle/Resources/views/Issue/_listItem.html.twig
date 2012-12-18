@@ -1,5 +1,9 @@
 <article class="issue">
     <div class="list-left">
+        <div class="issue-count">
+            <h4>{{ issue.affectedUsers.count }}</h4>
+            <strong>User{{ issue.affectedUsers.count > 1 ? 's' : '' }}</strong>
+        </div>
         {% if is_granted('ROLE_USER') %}
             <a class="btn watch {{ issue.affectedUsers.contains(app.user) ? 'active' : ''  }}" href="{{ path(issue.affectedUsers.contains(app.user) ? 'issue_unmark' : 'issue_mark', { 'id': issue.id })  }}">Me too!</a>
         {% endif %}
