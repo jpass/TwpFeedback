@@ -25,6 +25,30 @@ class ApiTest extends WebTestCase
         $this->em->close();
     }
 
+    public function testLoginLogout()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('GET', '/');
+
+        $this->assertTrue($crawler->filter('#header:contains("Log In")')->count() > 0);
+
+        $client->request('GET', '/api/login/1');
+
+        $crawler = $client->followRedirect('/');
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertTrue($crawler->filter('#header:contains("Johnny Mnemonic")')->count() > 0);
+
+        $client->request('GET', '/logout');
+
+        $crawler = $client->followRedirect('/');
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertTrue($crawler->filter('#header:contains("Log In")')->count() > 0);
+
+    }
+
     public function testLoginAsNotexistingUser()
     {
         $client = static::createClient();
