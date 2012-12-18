@@ -66,6 +66,6 @@ class DashboardTest extends WebTestCase
 
         $this->assertTrue($crawler->filter('input#username')->count() > 0);
         $this->assertTrue($crawler->filter('input#username')->count() > 0);
-        $this->assertTrue($crawler->filter('button[type="submit"]:contains("login")')->count() > 0);
+        $this->assertTrue($crawler->filter('button[type="submit"]:contains("Login")')->count() > 0);
     }
 }
