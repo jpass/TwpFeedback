@@ -103,11 +103,6 @@ class IdeaController extends Controller
     {
         $user = $this->get('security.context')->getToken()->getUser();
 
-        if(!$user->getRemainingVotes())
-        {
-            // someone is cheating
-            throw new \Exception('You have no more votes');
-        }
 
         $idea = $this->getDoctrine()->getRepository('Twp:Idea')->findOneById($id);
 
@@ -120,6 +115,13 @@ class IdeaController extends Controller
 
         // if user voted for this idea before we ensure we only add new votes or remove old ones
         $votedCount = $this->getDoctrine()->getRepository('Twp:Vote')->findBy(array('user' => $user->getId(), 'idea' => $id));
+
+        if(($user->getRemainingVotes() + count($votedCount)) < 1)
+        {
+            // someone is cheating
+            throw new \Exception('You have no more votes');
+        }
+
         $votes = $votes - count($votedCount);
 
         // remove unwanted votes
@@ -138,7 +140,7 @@ class IdeaController extends Controller
         }
         $em->flush();
 
-        return $this->redirect($this->generateUrl('idea_show', array('id' => $id)));
+        return $this->forward('TwpIdeaBundle:Idea:'.($votes > 0 ? 'watch' : 'unwatch') , array('id' => $id));
     }
 
     /**
