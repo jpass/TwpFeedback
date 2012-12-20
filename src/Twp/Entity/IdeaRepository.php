@@ -19,7 +19,7 @@ class IdeaRepository extends EntityRepository
         return array_map(function($v){ return $v[0]; }, $v);
     }
     
-    public function findOneWthComments($id)
+    public function findOneWithComments($id)
     {
         return $this->createQueryBuilder('i')
                 ->select('i, c')
