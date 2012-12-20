@@ -182,7 +182,7 @@ class Comment
      */
     public function getIdea()
     {
-        return $this->idea;
+        return $this->idea->first();
     }
 
     /**
