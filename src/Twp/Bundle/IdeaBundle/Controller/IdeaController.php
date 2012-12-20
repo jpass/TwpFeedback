@@ -48,6 +48,11 @@ class IdeaController extends Controller
     {
         $idea = $this->getDoctrine()->getRepository('Twp:Idea')->findOneWithComments($id);
 
+        if(!$idea)
+        {
+            throw $this->createNotFoundException('Idea not found');
+        }
+
         $commentForm = $this->get('commentController')->formAction();
 
         // check if its admin form
