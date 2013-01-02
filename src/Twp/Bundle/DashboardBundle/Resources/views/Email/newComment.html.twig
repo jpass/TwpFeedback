@@ -1,0 +1,13 @@
+{% set item = comment.idea ? comment.idea : comment.issue %}
+{% set type = comment.idea ? 'idea' : 'issue' %}
+{% if comment.status %}
+    {{ comment.user }} changed status of your idea -  {{ item.title }} to {{ comment.status }}
+{% else %}
+    {{ comment.user }} commented on your idea -  {{ item.title }}
+{% endif %}
+{{ comment.content }}
+If you want to respond, you can go directly to <a href="{{ url(type~'_show', { 'id': item.id}) }}">{{ url(type~'_show', { 'id': item.id }) }}</a>
+
+{{ comment.idea.title }}
+
+</body>
