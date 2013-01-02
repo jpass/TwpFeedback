@@ -17,64 +17,64 @@ class Idea
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank()
      * @Assert\MaxLength(100)
      */
     protected $title;
-    
+
     /**
      * @ORM\Column(type="text", nullable=true)
      * @Assert\NotBlank()
      */
     protected $content;
-    
+
     /**
      * @ORM\Column(type="datetime")
      */
     protected $createdAt;
-    
+
     /**
      * @ORM\Column(type="datetime")
      */
     protected $updatedAt;
-    
+
     // Relations:
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="ideas")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $user;
-    
+
     /**
      * @ORM\OneToOne(targetEntity="Status")
      * @ORM\JoinColumn(name="status_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $currentStatus;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Status", mappedBy="idea", cascade={"remove"})
      */
     protected $statuses;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="Comment", mappedBy="idea", cascade={"remove"})
      */
     protected $comments;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Vote", mappedBy="idea", cascade={"remove"})
      */
     protected $votes;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Watch", mappedBy="user")
      */
     protected $watchers;
-    
+
     /**
      * @ORM\PrePersist
      */
@@ -82,7 +82,7 @@ class Idea
     {
        $this->createdAt = new \DateTime();
     }
-    
+
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -100,11 +100,11 @@ class Idea
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->votes = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -120,14 +120,14 @@ class Idea
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -143,14 +143,14 @@ class Idea
     public function setContent($content)
     {
         $this->content = $content;
-    
+
         return $this;
     }
 
     /**
      * Get content
      *
-     * @return string 
+     * @return string
      */
     public function getContent()
     {
@@ -166,14 +166,14 @@ class Idea
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-    
+
         return $this;
     }
 
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -189,14 +189,14 @@ class Idea
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
-    
+
         return $this;
     }
 
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -212,14 +212,14 @@ class Idea
     public function setUser(\Twp\Entity\User $user = null)
     {
         $this->user = $user;
-    
+
         return $this;
     }
 
     /**
      * Get user
      *
-     * @return Twp\Entity\User 
+     * @return Twp\Entity\User
      */
     public function getUser()
     {
@@ -235,14 +235,14 @@ class Idea
     public function setCurrentStatus(\Twp\Entity\Status $currentStatus = null)
     {
         $this->currentStatus = $currentStatus;
-    
+
         return $this;
     }
 
     /**
      * Get currentStatus
      *
-     * @return Twp\Entity\Status 
+     * @return Twp\Entity\Status
      */
     public function getCurrentStatus()
     {
@@ -258,9 +258,9 @@ class Idea
     public function addStatus(\Twp\Entity\Status $status)
     {
         $this->statuses[] = $status;
-    
+
         $this->currentStatus = $status;
-        
+
         return $this;
     }
 
@@ -277,7 +277,7 @@ class Idea
     /**
      * Get statuses
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getStatuses()
     {
@@ -293,7 +293,7 @@ class Idea
     public function addComment(\Twp\Entity\Comment $comments)
     {
         $this->comments[] = $comments;
-    
+
         return $this;
     }
 
@@ -310,7 +310,7 @@ class Idea
     /**
      * Get comments
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getComments()
     {
@@ -326,7 +326,7 @@ class Idea
     public function addVote(\Twp\Entity\Vote $votes)
     {
         $this->votes[] = $votes;
-    
+
         return $this;
     }
 
@@ -343,7 +343,7 @@ class Idea
     /**
      * Get votes
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getVotes()
     {
@@ -359,7 +359,7 @@ class Idea
     public function addStatuse(\Twp\Entity\Status $statuses)
     {
         $this->statuses[] = $statuses;
-    
+
         return $this;
     }
 
@@ -382,7 +382,7 @@ class Idea
     public function addWatcher(\Twp\Entity\Watch $watchers)
     {
         $this->watchers[] = $watchers;
-    
+
         return $this;
     }
 
@@ -399,7 +399,7 @@ class Idea
     /**
      * Get watchers
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getWatchers()
     {
