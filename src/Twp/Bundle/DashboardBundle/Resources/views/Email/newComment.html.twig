@@ -1,13 +1,28 @@
-{% set item = comment.idea ? comment.idea : comment.issue %}
-{% set type = comment.idea ? 'idea' : 'issue' %}
-{% if comment.status %}
-    {{ comment.user }} changed status of your idea -  {{ item.title }} to {{ comment.status }}
-{% else %}
-    {{ comment.user }} commented on your idea -  {{ item.title }}
-{% endif %}
-{{ comment.content }}
-If you want to respond, you can go directly to <a href="{{ url(type~'_show', { 'id': item.id}) }}">{{ url(type~'_show', { 'id': item.id }) }}</a>
+<div style="width: 100%; height: 100%; background: #A2A2A2; margin: 0px; padding: 4px 0px;">
+    {% set item = comment.idea ? comment.idea : comment.issue %}
+    {% set type = comment.idea ? 'idea' : 'issue' %}
 
-{{ comment.idea.title }}
+    <div style="width: 620px; background: whitesmoke; margin: 4px auto; border: 1px solid #E3E3E3; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; padding: 0px 10px;">
+        <h2 style="font-size: 31.5px; font-family: Arial; color: #333; margin: 10px auto; border-bottom: 1px dotted #B3B3B3;">
+        <span style="color: #3A87AD;">{{ comment.user }}</span>
+        {% if comment.status %}
+            changed status of your idea:  <p style="color: #3A87AD; margin: 7px 4px; text-align: right;">{{ item.title }}<p> to {{ comment.status }}
+        {% else %}
+            commented on your idea: <p style="color: #3A87AD; margin: 7px 4px; text-align: right;">{{ item.title }}<p>
+        {% endif %}
+        </h2>
 
-</body>
+        <p style="margin: 4px 30px; font-style: italic;">
+            <span style="font-size: 31.5px; float: left;">"</span>
+                <span style="display: inline-block; text-align: center; width: 530px; margin: 9px auto; font-size: 18px;">
+                {{ comment.content }}
+                </span>
+            <span style="font-size: 31.5px; float: right;">"</span>
+        </p>
+        
+        <p style="font-size: 15px; text-align: center; font-family: Arial;">
+        If you want to respond, you can go directly to <a style="color: #08C;" href="{{ url(type~'_show', { 'id': item.id}) }}">{#{ url(type~'_show', { 'id': item.id }) }#}{{ comment.idea.title }}</a>
+        </p>
+        {#{ comment.idea.title }#}
+    </div>
+</div>
