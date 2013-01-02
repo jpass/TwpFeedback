@@ -21,7 +21,7 @@ class DefaultController extends Controller
     {
         $ideaForm = $this->get('form.factory')->createNamed('new_idea', new IdeaType());
         $issueForm = $this->get('form.factory')->createNamed('new_issue', new IssueType());
-        
+
         if($this->getRequest()->isMethod('POST'))
         {
             $ideaForm->bind($this->getRequest()->get('new_idea'));
@@ -57,7 +57,7 @@ class DefaultController extends Controller
     {
         $request = $this->getRequest();
         $session = $this->get('session');
-        
+
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
             $error = $request->attributes->get(
                 SecurityContext::AUTHENTICATION_ERROR
@@ -66,7 +66,7 @@ class DefaultController extends Controller
             $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
-        
+
         return array(
             'last_username' => $session->get(SecurityContext::LAST_USERNAME),
             'error'         => $error
