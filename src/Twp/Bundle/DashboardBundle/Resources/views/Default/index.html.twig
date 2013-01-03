@@ -29,13 +29,17 @@
                                             {{ form_errors(ideaForm.votes) }}
                                             {{ form_widget(ideaForm.votes.0) }}
                                             {{ form_label(ideaForm.votes.0, null, { 'label_attr': { 'class': 'btn' } }) }}
+                                        {% if app.user.remainingVotes > 1 %}
                                             {{ form_widget(ideaForm.votes.1) }}
                                             {{ form_label(ideaForm.votes.1, null, { 'label_attr': { 'class': 'btn' } }) }}
+                                        {% endif %}
+                                        {% if app.user.remainingVotes > 2 %}
                                             {{ form_widget(ideaForm.votes.2) }}
                                             {{ form_label(ideaForm.votes.2, null, { 'label_attr': { 'class': 'btn' } }) }}
+                                        {% endif %}
                                             {{ form_label(ideaForm.votes, null, { 'label_attr': { 'class': 'inline-block' } }) }}
                                         </div>
-                                        {{ form_rest(ideaForm) }}
+                                        {{ form_widget(ideaForm._token) }}
                                         <input type="submit" value="Add" class="btn" />
                                 </div>
                             </fieldset>
