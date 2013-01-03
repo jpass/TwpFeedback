@@ -6,10 +6,9 @@
 	    {% endif %}
     </div>
     <div class="list-right">
-	    <h4><a href="{{ path('idea_show', { 'id': idea.id }) }}">{{ idea.title }}</a></h4>
+	    <h4><a href="{{ path('idea_show', { 'id': idea.id }) }}">{{ idea.title }}</a> <span class="label label-{{ idea.currentStatus }}">{{ idea.currentStatus }}</span></h4>
 	    <p>{{ idea.content | nl2br }}</p>
 	    <footer>
-	    	<span class="label label-{{ idea.currentStatus }}">{{ idea.currentStatus }}</span>
             by <span class="text-info">{{ idea.user }}</span>
             <small>{{ idea.createdAt.format("F d, Y g:i a") }}</small>
 	    </footer>
