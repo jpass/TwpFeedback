@@ -80,6 +80,16 @@ class IdeaController extends Controller
                     $status->setComment($comment);
                     $em->persist($status);
 
+                    if($status->isClosing())
+                    {
+                        // count votes
+                        $idea->setClosingVotes($idea->getVotes()->count());
+                        // free votes
+                        foreach($idea->getVotes() as $vote)
+                        {
+                            $em->remove($vote);
+                        }
+                    }
                     $idea->addStatus($status);
                     $em->persist($idea);
                 }
