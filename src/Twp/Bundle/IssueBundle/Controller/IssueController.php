@@ -41,6 +41,11 @@ class IssueController extends Controller
     {
         $issue = $this->getDoctrine()->getRepository('Twp:Issue')->findOneWthComments($id);
 
+        if(!$issue)
+        {
+            throw $this->createNotFoundException();
+        }
+
         $commentForm = $this->get('commentController')->formAction();
 
         // check if its admin form
