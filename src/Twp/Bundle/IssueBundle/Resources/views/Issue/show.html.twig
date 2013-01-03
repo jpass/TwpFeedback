@@ -13,7 +13,7 @@
 <div class="comments  offset2 span10">
     <form action="{{ path('issue_show', { 'id': issue.id }) }}" method="post" {{ form_enctype(commentForm) }}>
         {{ form_widget(commentForm) }}
-        <input type="Submit" value="Post"/>
+        <input class="btn" type="Submit" value="Post comment"/>
     </form>
     {% for comment in issue.comments %}
         <section class="comment">
