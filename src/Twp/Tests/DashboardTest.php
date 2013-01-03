@@ -43,7 +43,7 @@ class DashboardTest extends WebTestCase
 
         $this->assertTrue($crawler->filter('.idea h4 a:contains("IdeaTest1 Titile")')->count() > 0);
         $this->assertTrue($crawler->filter('.idea p:contains("IdeaTest1 Content")')->count() > 0);
-        $this->assertTrue($crawler->filter('.idea footer span.label:contains("new")')->count() > 0);
+        $this->assertTrue($crawler->filter('.idea span.label:contains("new")')->count() > 0);
 
         $this->assertTrue($crawler->filter('.votes-count h4:contains("0")')->count() > 0);
         $this->assertTrue($crawler->filter('.votes-count:contains("Vote")')->count() > 0);
