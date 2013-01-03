@@ -371,4 +371,9 @@ class Issue
     {
         $this->statuses->removeElement($statuses);
     }
+
+    public function isClosed()
+    {
+        return $this->getCurrentStatus()->isClosing();
+    }
 }

@@ -41,6 +41,11 @@ class Idea
      */
     protected $updatedAt;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $closingVotes;
+
     // Relations:
 
     /**
@@ -404,5 +409,33 @@ class Idea
     public function getWatchers()
     {
         return $this->watchers;
+    }
+
+    /**
+     * Set closingVotes
+     *
+     * @param integer $closingVotes
+     * @return Idea
+     */
+    public function setClosingVotes($closingVotes)
+    {
+        $this->closingVotes = $closingVotes;
+    
+        return $this;
+    }
+
+    /**
+     * Get closingVotes
+     *
+     * @return integer 
+     */
+    public function getClosingVotes()
+    {
+        return $this->closingVotes;
+    }
+
+    public function isClosed()
+    {
+        return $this->getCurrentStatus()->isClosing();
     }
 }
