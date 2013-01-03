@@ -11,10 +11,12 @@
 {% block content %}
 {% include 'TwpIdeaBundle:Idea:_listItem.html.twig' with { 'idea': idea } %}
 <div class="comments offset2 span10">
+    {% if not idea.closed or is_granted('ROLE_FEEDBACK_ADMIN') %}
     <form action="{{ path('idea_show', { 'id': idea.id }) }}" method="post" {{ form_enctype(commentForm) }}>
         {{ form_widget(commentForm) }}
         <input class="btn" type="Submit" value="Post comment"/>
     </form>
+    {% endif %}
     {% for comment in idea.comments %}
         <section class="comment">
             <header>

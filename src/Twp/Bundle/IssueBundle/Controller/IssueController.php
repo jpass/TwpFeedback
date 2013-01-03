@@ -14,25 +14,25 @@ class IssueController extends Controller
     public function addAction(Issue $issue)
     {
         $em = $this->getDoctrine()->getManager();
-        
+
         $user = $this->get('security.context')->getToken()->getUser();
-        
+
         $issue->setUser($user);
         $issue->addAffectedUser($user);
-        
+
         $status = new Status();
         $status->setUser($user);
         $status->setIssue($issue);
         $em->persist($status);
-        
+
         $issue->addStatus($status);
         $em->persist($issue);
-        
+
         $em->flush();
-        
+
         return $this->redirect($this->generateUrl('issue_show', array('id' => $issue->getId())));
     }
-    
+
     /**
      * @Route("/issue/{id}", name="issue_show", requirements={"id" = "\d+"})
      * @Template()
@@ -40,19 +40,24 @@ class IssueController extends Controller
     public function showAction($id)
     {
         $issue = $this->getDoctrine()->getRepository('Twp:Issue')->findOneWthComments($id);
-        
+
+        if(!$issue)
+        {
+            throw $this->createNotFoundException();
+        }
+
         $commentForm = $this->get('commentController')->formAction();
-        
+
         // check if its admin form
         if(isset($commentForm['status']))
         {
             $commentForm['status']->setData($issue->getCurrentStatus()->getType());
         }
-        
+
         if($this->getRequest()->isMethod('POST'))
         {
             $commentForm->bind($this->getRequest());
-            if ($commentForm->isValid()) 
+            if ($commentForm->isValid())
             {
                 $em = $this->getDoctrine()->getManager();
                 $user = $this->get('security.context')->getToken()->getUser();
@@ -67,19 +72,19 @@ class IssueController extends Controller
                     $status->setIssue($issue);
                     $status->setComment($comment);
                     $em->persist($status);
-                    
+
                     $issue->addStatus($status);
                     $em->persist($issue);
                 }
                 $em->flush();
-                
+
                 return $this->redirect($this->generateUrl('issue_show', array('id' => $id)));
             }
         }
-        
+
         return array('issue' => $issue, 'commentForm' => $commentForm->createView());
     }
-    
+
     /**
      * @Route("/issue", name="issue_list")
      * @Template()
@@ -88,23 +93,23 @@ class IssueController extends Controller
     {
         return array('issues' => $this->getDoctrine()->getRepository('Twp:Issue')->findAll());
     }
-    
+
     /**
      * @Route("/issue/{id}/mark", name="issue_mark")
      */
     public function markAction($id)
     {
         $issue = $this->getDoctrine()->getRepository('Twp:Issue')->findOneById($id);
-        
+
         if(!$issue)
         {
             throw $this->createNotFoundException('Issue not found');
         }
-        
+
         $user = $this->get('security.context')->getToken()->getUser();
-        
+
         $marked = $issue->getAffectedUsers()->contains($user);
-        
+
         if(!$marked)
         {
             $issue->getAffectedUsers()->add($user);
@@ -112,28 +117,28 @@ class IssueController extends Controller
             $em->persist($issue);
             $em->flush();
         }
-        
+
          return $this->redirect($this->generateUrl('issue_show', array('id' => $issue->getId())));
     }
-    
+
     /**
      * @Route("/issue/{id}/unmark", name="issue_unmark")
      */
     public function unmarkAction($id)
     {
         $issue = $this->getDoctrine()->getRepository('Twp:Issue')->findOneById($id);
-        
+
         if(!$issue)
         {
             throw $this->createNotFoundException('Issue not found');
         }
-        
+
         $user = $this->get('security.context')->getToken()->getUser();
-        
+
         $issue->getAffectedUsers()->removeElement($user);
         $em = $this->getDoctrine()->getEntityManager();
         $em->flush();
-        
+
         return $this->redirect($this->generateUrl('issue_show', array('id' => $issue->getId())));
     }
 }

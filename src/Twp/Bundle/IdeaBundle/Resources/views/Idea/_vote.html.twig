@@ -1,7 +1,7 @@
 <div class="vote">
     <div class="btn-group">
         {% set votedHere = 0 %}
-        {% if is_granted('ROLE_USER') %}
+        {% if is_granted('ROLE_USER') and not idea.closed %}
             {% set votedHere = app.user.getVotesForIdea(idea) | length %}
             <a class="vote-btn btn dropdown-toggle {{ votedHere ? 'active' : '' }}"  data-toggle="dropdown" href="#">Vote <span class="caret"></span></a>
             {% set remainingVotes = app.user.remainingVotes + votedHere %}
@@ -24,7 +24,8 @@
         {% endif %}
     </div>
     <div class="votes-count">
-        <h4>{{ idea.votes.count }}</h4>
-        <strong>Vote{{ idea.votes.count > 1 ? 's' : '' }}</strong>
+        {% set votes = idea.closed ? idea.closingVotes : idea.votes.count %}
+        <h4>{{ votes }}</h4>
+        <strong>Vote{{ votes > 1 ? 's' : '' }}</strong>
     </div>
 </div>

@@ -17,6 +17,11 @@ class Status
     const STATUS_COMPLETED = 5;
     const STATUS_DECLINED = 6;
     const STATUS_DUPLICATE = 7;
+    private static $closing = array(
+            self::STATUS_COMPLETED,
+            self::STATUS_DECLINED,
+            self::STATUS_DUPLICATE
+            );
 
     /**
      * @ORM\Id
@@ -244,5 +249,10 @@ class Status
     public function getCssClass()
     {
         return  str_replace (" ", "=", $this->__toString());
+    }
+
+    public function isClosing()
+    {
+        return in_array($this->getType(), self::$closing);
     }
 }
