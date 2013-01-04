@@ -5,7 +5,8 @@
         <div class="container">
             <div class="pull-right well">
                 {% if is_granted('ROLE_USER') %}
-                    {{ app.user }} &rarr; <a href="{{ path('logout') }}">Log Out</a>
+                    {{ app.user }} &rarr; <a href="{{ path('logout') }}">Log Out</a><br />
+                    Votes: {{ app.user.remainingVotes }}
                 {% else %}
                     <a href="{{ path('login') }}">Log In</a>
                 {% endif %}
