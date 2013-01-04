@@ -1,27 +1,25 @@
-<div style="width: 100%; height: 100%; background: #A2A2A2; margin: 0px; padding: 4px 0px;">
+<div style="width: 100%; height: 100%; background: #E8E7E5; margin: 0px; padding: 4px 0px;">
     {% set item = comment.idea ? comment.idea : comment.issue %}
     {% set type = comment.idea ? 'idea' : 'issue' %}
 
-    <div style="width: 620px; background: whitesmoke; margin: 4px auto; border: 1px solid #E3E3E3; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; padding: 0px 10px;">
-        <h2 style="font-size: 31.5px; font-family: Arial; color: #333; margin: 10px auto; border-bottom: 1px dotted #B3B3B3;">
+    <div style="width: 620px; background: whitesmoke; margin: 4px auto; border: 1px solid #999; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; padding: 0px 10px;">
+        <h2 style="font-size: 24px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333; margin: 10px auto; border-bottom: 1px dotted #B3B3B3;">
         <span style="color: #3A87AD;">{{ comment.user }}</span>
         {% if comment.status %}
-            changed status of your idea:  <p style="color: #3A87AD; margin: 7px 4px; text-align: right;">{{ item.title }}<p> to {{ comment.status }}
+            changed status of your idea:  <p style="font-size: 33px; color: #3A87AD; margin: 7px 0px; text-align: left;"><a style="color: #08C; text-decoration: none;" href="{{ url(type~'_show', { 'id': item.id}) }}">{{ item.title }}</a></p> <p style="font-size: 24px; margin: 7px 0px; text-align: left;">to {{ comment.status }}</p>
         {% else %}
-            commented on your idea: <p style="color: #3A87AD; margin: 7px 4px; text-align: right;">{{ item.title }}<p>
+            commented on your idea: <p style="font-size: 33px; color: #3A87AD; margin: 7px 0px; text-align: left;"><a style="color: #08C; text-decoration: none;" href="{{ url(type~'_show', { 'id': item.id}) }}">{{ item.title }}</a></p>
         {% endif %}
         </h2>
 
         <p style="margin: 4px 30px; font-style: italic;">
-            <span style="font-size: 31.5px; float: left;">"</span>
-                <span style="display: inline-block; text-align: center; width: 530px; margin: 9px auto; font-size: 18px;">
+                <span style="display: inline-block; text-align: center; width: 560px; margin: 9px auto; font-size: 18px; line-height: 24px;">
                 {{ comment.content }}
                 </span>
-            <span style="font-size: 31.5px; float: right;">"</span>
         </p>
         
-        <p style="font-size: 15px; text-align: center; font-family: Arial;">
-        If you want to respond, you can go directly to <a style="color: #08C;" href="{{ url(type~'_show', { 'id': item.id}) }}">{#{ url(type~'_show', { 'id': item.id }) }#}{{ comment.idea.title }}</a>
+        <p style="font-size: 12px; text-align: center; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; width: 550px; border-top: 1px dotted #B3B3B3; margin: 14px auto; margin-top: 36px;">
+        If you want to respond, you can go directly to <a style="color: #08C;" href="{{ url(type~'_show', { 'id': item.id}) }}">{{ url(type~'_show', { 'id': item.id }) }}</a>
         </p>
         {#{ comment.idea.title }#}
     </div>
