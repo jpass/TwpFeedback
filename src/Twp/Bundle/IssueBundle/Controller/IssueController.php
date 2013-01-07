@@ -30,6 +30,21 @@ class IssueController extends Controller
 
         $em->flush();
 
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Issue created')
+            ->setFrom($this->container->getParameter('twp_dashboard.email_from'))
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderView(
+                    'TwpDashboardBundle:Email:issueCreated.html.twig',
+                    array('issue' => $issue)
+                ),
+                'text/html'
+            )
+        ;
+
+        $this->get('mailer')->send($message);
+
         return $this->redirect($this->generateUrl('issue_show', array('id' => $issue->getId())));
     }
 
@@ -77,6 +92,24 @@ class IssueController extends Controller
                     $em->persist($issue);
                 }
                 $em->flush();
+
+                foreach ($issue->getAffectedUsers() as $user)
+                {
+                    $message = \Swift_Message::newInstance()
+                        ->setSubject('Issue comment')
+                        ->setFrom($this->container->getParameter('twp_dashboard.email_from'))
+                        ->setTo($user->getEmail())
+                        ->setBody(
+                            $this->renderView(
+                                'TwpDashboardBundle:Email:newComment.html.twig',
+                                array('comment' => $comment)
+                            ),
+                            'text/html'
+                        )
+                    ;
+
+                    $this->get('mailer')->send($message);
+                }
 
                 return $this->redirect($this->generateUrl('issue_show', array('id' => $id)));
             }
