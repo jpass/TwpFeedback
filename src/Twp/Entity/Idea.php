@@ -76,7 +76,7 @@ class Idea
     protected $votes;
 
     /**
-     * @ORM\OneToMany(targetEntity="Watch", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Watch", mappedBy="idea")
      */
     protected $watchers;
 
