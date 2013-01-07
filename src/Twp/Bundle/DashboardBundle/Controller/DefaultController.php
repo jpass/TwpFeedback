@@ -105,24 +105,4 @@ class DefaultController extends Controller
 
         return array('feed' => $feed);
     }
-
-    /**
-     * @Route("/email/{id}")
-     */
-    public function showEmail($id)
-    {
-        $comment = $this->getDoctrine()->getRepository('Twp:Comment')->findOneById($id);
-
-        return $this->render('TwpDashboardBundle:Email:newComment.html.twig', array('comment' => $comment));
-    }
-    
-    /**
-     * @Route("/email2/{id}")
-     */
-    public function showEmail2($id)
-    {
-        $idea = $this->getDoctrine()->getRepository('Twp:Idea')->findOneById($id);
-
-        return $this->render('TwpDashboardBundle:Email:ideaCreated.html.twig', array('idea' => $idea));
-    }
 }
