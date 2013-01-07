@@ -26,7 +26,11 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue(false)
                     ->info('rss feed url to parse and load in right bar')
                     ->example('http://emaple.org/?feed=rss')
-                    ->end()
+                ->end()
+                ->scalarNode('email_from')
+                    ->info('notification emails\' sender address')
+                    ->defaultValue(false)
+                ->end()
             ->end();
 
 

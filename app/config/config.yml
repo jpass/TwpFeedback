@@ -79,3 +79,4 @@ twig:
 
 twp_dashboard:
     rss_feed: "http://blog.travelworldpassport.com/?category_name=blog,dev-blog,features&feed=rss2"
+    email_from: no-reply@travelworldpassport.com
