@@ -35,6 +35,21 @@ class IdeaController extends Controller
 
         $em->flush();
 
+        $message = \Swift_Message::newInstance()
+            ->setSubject('Idea created')
+            ->setFrom($this->container->getParameter('twp_dashboard.email_from'))
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderView(
+                    'TwpDashboardBundle:Email:ideaCreated.html.twig',
+                    array('idea' => $idea)
+                ),
+                'text/html'
+            )
+        ;
+
+        $this->get('mailer')->send($message);
+
         $this->voteAction($idea->getId(), $votes);
 
         return $this->redirect($this->generateUrl('idea_show', array('id' => $idea->getId())));
@@ -94,6 +109,26 @@ class IdeaController extends Controller
                     $em->persist($idea);
                 }
                 $em->flush();
+
+                foreach ($idea->getWatchers() as $watch)
+                {
+                    $user = $watch->getUser();
+
+                    $message = \Swift_Message::newInstance()
+                        ->setSubject('Idea comment')
+                        ->setFrom($this->container->getParameter('twp_dashboard.email_from'))
+                        ->setTo($user->getEmail())
+                        ->setBody(
+                            $this->renderView(
+                                'TwpDashboardBundle:Email:newComment.html.twig',
+                                array('comment' => $comment)
+                            ),
+                            'text/html'
+                        )
+                    ;
+
+                    $this->get('mailer')->send($message);
+                }
 
                 return $this->redirect($this->generateUrl('idea_show', array('id' => $id)));
             }
